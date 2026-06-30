@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 40">
+  <rect width="115" height="40" rx="6" fill="transparent"/>
+  <circle cx="20" cy="20" r="14" fill="#2563EB"/>
+  <circle cx="20" cy="20" r="8" stroke="#fff" stroke-width="2.5" fill="none"/>
+  <path d="M20 13v5l3-3-3 8v5l5-5-5-10z" fill="#fff"/>
+  <text x="42" y="26" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700" fill="#cbd5e1">Clutch</text>
+</svg>
