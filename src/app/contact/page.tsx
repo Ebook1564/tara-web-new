@@ -6,10 +6,48 @@ import PageHero from "@/components/PageHero";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    "Full Name": "",
+    "Email": "",
+    "Company": "",
+    "Service": "Select a service",
+    "Message": "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+
+    try {
+      // Replace this URL with your Google Apps Script Web App URL
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzFSD5OE9nT0-TIjahocHFLBmed_nFZ3yoSlivkuxwktMH6WumAllw59BpCQLNf8ftR/exec";
+
+      const formBody = new URLSearchParams();
+      Object.entries(formData).forEach(([key, value]) => {
+        formBody.append(key, value);
+      });
+
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formBody.toString(),
+      });
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Error!", error);
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,6 +81,9 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
                       <input
                         type="text"
+                        name="Full Name"
+                        value={formData["Full Name"]}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                         placeholder="John Doe"
@@ -52,6 +93,9 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-foreground mb-2">Email</label>
                       <input
                         type="email"
+                        name="Email"
+                        value={formData["Email"]}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                         placeholder="john@example.com"
@@ -62,26 +106,37 @@ export default function ContactPage() {
                     <label className="block text-sm font-medium text-foreground mb-2">Company</label>
                     <input
                       type="text"
+                      name="Company"
+                      value={formData["Company"]}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                       placeholder="Your Company"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Service Needed</label>
-                    <select className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-muted focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all">
-                      <option>Select a service</option>
-                      <option>Web Development</option>
-                      <option>App Development</option>
-                      <option>Game Development</option>
-                      <option>Email Marketing</option>
-                      <option>B2B Lead Generation</option>
-                      <option>Other</option>
+                    <select 
+                      name="Service"
+                      value={formData["Service"]}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-muted focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                    >
+                      <option value="Select a service">Select a service</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="App Development">App Development</option>
+                      <option value="Game Development">Game Development</option>
+                      <option value="Email Marketing">Email Marketing</option>
+                      <option value="B2B Lead Generation">B2B Lead Generation</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Message</label>
                     <textarea
                       rows={4}
+                      name="Message"
+                      value={formData["Message"]}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all resize-none"
                       placeholder="Tell us about your project..."
@@ -89,10 +144,14 @@ export default function ContactPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl shadow-md hover:shadow-lg hover:shadow-primary/20 transition-all duration-300"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl shadow-md hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    <Send size={16} />
-                    Send Message
+                    {loading ? (
+                      <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
+                    ) : (
+                      <><Send size={16} /> Send Message</>
+                    )}
                   </button>
                 </form>
               )}
@@ -116,9 +175,9 @@ export default function ContactPage() {
                     <div className="w-10 h-10 rounded-xl bg-secondary/5 flex items-center justify-center shrink-0">
                       <MapPin size={18} className="text-secondary" />
                     </div>
-                    <span>New Delhi, India </span>
+                    New Delhi, India
                     <br />
-                    <span>Dubai, Sharjah</span>
+                    Dubai, UAE
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted">
                     <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
@@ -146,7 +205,7 @@ export default function ContactPage() {
               <div className="p-6 rounded-2xl border border-border bg-white shadow-sm">
                 <h3 className="text-lg font-semibold text-foreground mb-2">Global Reach</h3>
                 <p className="text-sm text-muted">
-                  We&apos;ve worked with clients from 25+ countries and 1200+ businesses worldwide.
+                  We&apos;ve worked with clients from 25+ countries and 350+ businesses worldwide.
                   Distance is never a barrier.
                 </p>
               </div>

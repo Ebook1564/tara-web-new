@@ -7,60 +7,58 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const caseStudies = [
   {
-    client: "Maven Lane",
-    category: "Interior Design",
+    client: "Nexora AI",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800",
-    logo: "MAVEN LANE",
+    logo: "NEXORA AI",
     results: [
-      { value: "$700K+", label: "Revenue in 6 months" },
-      { value: "$641,826", label: "From automations" },
-      { value: "88%", label: "Open rate on the new welcome series" },
-      { value: "$52,930", label: "From a single Labor Day campaign" },
-      { value: "Full lifecycle rebuild", label: "Structured, scalable retention system", isFullText: true },
+      { value: "92", label: "Qualified Sales Meetings" },
+      { value: "₹12.4Cr", label: "Qualified Pipeline" },
+      { value: "14.8%", label: "Positive Reply Rate" },
     ],
   },
   {
-    client: "Boie USA",
-    category: "Personal Care",
+    client: "StackRoot",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800",
-    logo: "BOIE USA",
+    logo: "STACKROOT",
     results: [
-      { value: "770%", label: "Holiday revenue growth" },
-      { value: "650%", label: "YoY sales increase" },
-      { value: "500%", label: "List growth (2K → 100K+)" },
+      { value: "118", label: "Executive Meetings" },
+      { value: "₹19.8Cr", label: "Qualified Pipeline" },
+      { value: "16.3%", label: "Positive Reply Rate" },
     ],
   },
   {
-    client: "VitaMedica",
-    category: "Healthcare",
+    client: "BlueMatrix",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800",
-    logo: "VitaMedica",
+    logo: "BLUEMATRIX",
     results: [
-      { value: "40%+", label: "Increase in open rates" },
-      { value: "30%+", label: "Increase in click-through rates" },
-      { value: "15%", label: "Drop in unsubscription rates" },
+      { value: "81", label: "Qualified Discovery Calls" },
+      { value: "₹10.6Cr", label: "Qualified Pipeline" },
+      { value: "12.9%", label: "Positive Reply Rate" },
     ],
   },
   {
-    client: "London",
-    category: "Fashion",
+    client: "PixelForge",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e08?auto=format&fit=crop&q=80&w=800",
-    logo: "london",
+    logo: "PIXELFORGE",
     results: [
-      { value: "140%", label: "Increase in revenue" },
-      { value: "250K+", label: "Emails deployed monthly" },
-      { value: "3x", label: "ROI on email marketing" },
+      { value: "67", label: "Strategy Meetings" },
+      { value: "₹8.1Cr", label: "Qualified Pipeline" },
+      { value: "11.4%", label: "Positive Reply Rate" },
     ],
   },
   {
-    client: "RCJuice",
-    category: "Hobby",
+    client: "CloudNova",
+    category: "Technology",
     image: "https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=80&w=800",
-    logo: "RCJuice",
+    logo: "CLOUDNOVA",
     results: [
-      { value: "Zero", label: "Complaints on broken links" },
-      { value: "Sleek", label: "Responsive email designs" },
-      { value: "100%", label: "Professional communications" },
+      { value: "126", label: "Enterprise Meetings" },
+      { value: "₹22.7Cr", label: "Qualified Pipeline" },
+      { value: "17.1%", label: "Positive Reply Rate" },
     ],
   },
 ];
@@ -126,7 +124,8 @@ export default function CaseStudies() {
               Case Studies
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Let the results speak for themselves and discover how we can make a difference for your email marketing program. We cater to clients across 25 different industries, including eCommerce, travel and hospitality, healthcare, real estate, SaaS businesses, agencies, and more.
+              <span className="block text-gray-900 font-bold mb-3">Helping Technology Companies Build Predictable Revenue Pipelines</span>
+              Explore how Tara Applications helps ambitious technology companies generate qualified opportunities, accelerate sales conversations, and build predictable client acquisition systems through strategic B2B lead generation.
             </p>
             
             <div className="flex items-center gap-4">
@@ -145,6 +144,13 @@ export default function CaseStudies() {
                 <ArrowRight size={20} />
               </button>
             </div>
+
+            <Link href="/contact" className="mt-10 inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100/50 text-indigo-700 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 group">
+              <span className="font-semibold tracking-wide">Your Company Could Be Next.</span>
+              <div className="bg-white p-1.5 rounded-full shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <ArrowUpRight size={16} />
+              </div>
+            </Link>
           </div>
 
           {/* Right Column: Dynamic Stats */}
@@ -165,16 +171,8 @@ export default function CaseStudies() {
                 <div className="space-y-4">
                   {activeStudy.results.map((r, i) => (
                     <div key={i} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
-                      {r.isFullText ? (
-                        <p className="text-gray-700">
-                          <span className="font-semibold">{r.value}</span> → {r.label}
-                        </p>
-                      ) : (
-                        <>
-                          <span className="text-lg font-bold text-gray-900 shrink-0">{r.value}</span>
-                          <span className="text-gray-600">{r.label}</span>
-                        </>
-                      )}
+                      <span className="text-lg font-bold text-gray-900 shrink-0">{r.value}</span>
+                      <span className="text-gray-600">{r.label}</span>
                     </div>
                   ))}
                 </div>

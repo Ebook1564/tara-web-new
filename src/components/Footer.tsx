@@ -55,6 +55,8 @@ export default function Footer() {
               <div className="flex items-start gap-2 text-sm text-muted">
                 <MapPin size={14} className="mt-0.5 shrink-0" />
                 New Delhi, India
+                <br />
+                Sharjah, UAE
               </div>
             </div>
           </div>
@@ -84,10 +86,10 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Tara Applications. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {["LinkedIn", "Twitter", "GitHub", "YouTube"].map((social) => (
+            {["LinkedIn"].map((social) => (
               <a
                 key={social}
-                href="#"
+                href="https://in.linkedin.com/in/amansaxenatara"
                 className="text-xs text-muted hover:text-primary transition-colors"
               >
                 {social}

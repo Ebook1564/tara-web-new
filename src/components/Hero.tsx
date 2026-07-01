@@ -106,37 +106,37 @@ export default function Hero() {
       style={{ borderRadius: `0 0 ${scrollRadius}px ${scrollRadius}px`, transition: "border-radius 0.1s ease-out" }}
     >
       <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: `0 0 ${scrollRadius}px ${scrollRadius}px`, transition: "border-radius 0.1s ease-out" }}>
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0418] via-[#150b2e] to-[#0b0b1a]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0418] via-[#150b2e] to-[#0b0b1a]" />
 
-      <div ref={orbsRef} className="absolute inset-0 pointer-events-none">
-        <div data-speed="0.4" className="absolute top-[10%] -left-32 w-[700px] h-[700px] bg-purple-600/12 rounded-full blur-[160px]" />
-        <div data-speed="0.25" className="absolute top-[30%] -right-40 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px]" />
-        <div data-speed="0.35" className="absolute bottom-[5%] left-[20%] w-[500px] h-[500px] bg-fuchsia-500/8 rounded-full blur-[120px]" />
-        <div data-speed="0.5" className="absolute top-[55%] right-[20%] w-[350px] h-[350px] bg-violet-500/6 rounded-full blur-[90px]" />
-        <div data-speed="0.2" className="absolute bottom-[30%] left-[5%] w-[300px] h-[300px] bg-cyan-500/4 rounded-full blur-[80px]" />
-      </div>
+        <div ref={orbsRef} className="absolute inset-0 pointer-events-none">
+          <div data-speed="0.4" className="absolute top-[10%] -left-32 w-[700px] h-[700px] bg-purple-600/12 rounded-full blur-[160px]" />
+          <div data-speed="0.25" className="absolute top-[30%] -right-40 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px]" />
+          <div data-speed="0.35" className="absolute bottom-[5%] left-[20%] w-[500px] h-[500px] bg-fuchsia-500/8 rounded-full blur-[120px]" />
+          <div data-speed="0.5" className="absolute top-[55%] right-[20%] w-[350px] h-[350px] bg-violet-500/6 rounded-full blur-[90px]" />
+          <div data-speed="0.2" className="absolute bottom-[30%] left-[5%] w-[300px] h-[300px] bg-cyan-500/4 rounded-full blur-[80px]" />
+        </div>
 
-      <Stars />
+        <Stars />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0418] via-transparent to-transparent z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0418] via-transparent to-transparent z-[1]" />
 
-      <div
-        className="absolute inset-0 opacity-[0.03] z-[1]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
+        <div
+          className="absolute inset-0 opacity-[0.03] z-[1]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
+          }}
+        />
 
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0a0418] to-transparent z-[1]" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0a0418] to-transparent z-[1]" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 sm:pb-10 w-full">
-        <div className="text-center space-y-5">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-purple-300 text-xs font-medium backdrop-blur-sm mx-auto">
-            <TrendingUp size={14} />
-            Trusted by 1200+ Clients Worldwide
-          </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24 sm:pb-10 w-full">
+          <div className="text-center space-y-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-purple-300 text-xs font-medium backdrop-blur-sm mx-auto">
+              <TrendingUp size={14} />
+              Trusted by 350+ Clients Worldwide
+            </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05]">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-100">We Build Your Product.</span>
@@ -144,30 +144,30 @@ export default function Hero() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-pink-100">We Fill Your Pipeline.</span>
             </h1>
 
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Custom software development and B2B lead generation under one roof.
-            From web & mobile apps to targeted prospect campaigns
-            we engineer growth from code to close.
-          </p>
+            <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+              Custom software development and B2B lead generation under one roof.
+              From web & mobile apps to targeted prospect campaigns
+              we engineer growth from code to close.
+            </p>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-4 text-base font-semibold text-white bg-[#3b82f6] hover:bg-[#2563eb] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              Get Free Consultation
-              <ArrowRight size={18} />
-            </Link>
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center gap-2 px-7 py-4 text-base font-medium text-white border border-white/20 hover:bg-white/5 hover:border-white/40 rounded-xl transition-all duration-300"
-            >
-              View Our Work
-            </Link>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-7 py-4 text-base font-semibold text-white bg-[#3b82f6] hover:bg-[#2563eb] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Get Free Consultation
+                <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/portfolio"
+                className="inline-flex items-center gap-2 px-7 py-4 text-base font-medium text-white border border-white/20 hover:bg-white/5 hover:border-white/40 rounded-xl transition-all duration-300"
+              >
+                View Our Work
+              </Link>
+            </div>
+
           </div>
-
         </div>
-      </div>
       </div>
 
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 translate-y-1/2">

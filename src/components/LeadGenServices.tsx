@@ -11,7 +11,7 @@ const channels = [
   { icon: MailIcon, title: "Email Outreach", desc: "Hyper-personalized sequences targeting key decision-makers at scale.", gradient: "from-[#4A7FD3] to-[#E83398]" },
   { icon: Phone, title: "Cold Calling", desc: "Elite SDRs trained to navigate gatekeepers and book qualified meetings.", gradient: "from-[#4A7FD3] to-[#E83398]" },
   { icon: Building2, title: "LinkedIn Outreach", desc: "Strategic connection campaigns, profile optimization, and InMail.", gradient: "from-[#4A7FD3] to-[#E83398]" },
-  { icon: BarChart3, title: "Paid Ads", desc: "Laser-targeted LinkedIn & Google Ads to capture high-intent buyers.", gradient: "from-[#4A7FD3] to-[#E83398]" },
+  { icon: BarChart3, title: "Paid Ads", desc: "Laser-targeted LinkedIn, Meta Ads & Google Ads to capture high-intent buyers.", gradient: "from-[#4A7FD3] to-[#E83398]" },
   { icon: Target, title: "Lead Scoring", desc: "AI-driven intent scoring to prioritize your hottest prospects.", gradient: "from-[#4A7FD3] to-[#E83398]" },
   { icon: TrendingUp, title: "CRM Integration", desc: "Flawless sync with Salesforce, HubSpot, and your favorite tools.", gradient: "from-[#4A7FD3] to-[#E83398]" },
 ];
@@ -48,7 +48,7 @@ function ChannelCard({ icon: Icon, title, desc, gradient, index }: { icon: any; 
       className="group relative p-8 rounded-3xl bg-white border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-10 blur-[40px] transition-opacity duration-500`} />
-      
+
       <div className="relative z-10">
         <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#E83398]/10 group-hover:border-[#E83398]/20">
           <Icon size={24} className="text-[#4A7FD3] group-hover:text-[#E83398] transition-colors duration-300" />
@@ -71,7 +71,7 @@ export default function LeadGenServices() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-20 lg:mb-28">
           <motion.div
@@ -83,7 +83,7 @@ export default function LeadGenServices() {
             <Sparkles size={16} className="text-blue-500" />
             High-Impact Growth Engine
           </motion.div>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -92,7 +92,7 @@ export default function LeadGenServices() {
           >
             B2B Lead <span className="text-[#4A7FD3]">Generation</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -105,8 +105,8 @@ export default function LeadGenServices() {
 
         {/* Results / Value Prop Split */}
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-28">
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -118,7 +118,7 @@ export default function LeadGenServices() {
             <p className="text-lg text-gray-600 leading-relaxed">
               We combine AI automation with experienced outbound specialists to identify the right buyers, personalize every touchpoint, and consistently deliver qualified opportunities. With 5M+ leads generated and 10+ years of experience, our campaigns are built to create 3X pipeline growth, not just more emails.
             </p>
-            
+
             <ul className="space-y-4">
               {[
                 "AI-powered prospect research with human quality control",
@@ -126,7 +126,7 @@ export default function LeadGenServices() {
                 "5M+ B2B leads generated across SaaS, IT & Professional Services",
                 "Proven framework delivering up to 3X pipeline growth",
               ].map((item, i) => (
-                <motion.li 
+                <motion.li
                   key={i}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -151,7 +151,7 @@ export default function LeadGenServices() {
 
         {/* Channels Grid */}
         <div className="mb-20">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -160,7 +160,7 @@ export default function LeadGenServices() {
             <h3 className={`text-3xl font-extrabold text-gray-900 ${outfit.className}`}>Our Arsenal</h3>
             <p className="text-gray-600 mt-4 max-w-2xl mx-auto">We deploy a synchronized attack across the most effective B2B channels.</p>
           </motion.div>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {channels.map((ch, i) => (
               <ChannelCard key={ch.title} icon={ch.icon} title={ch.title} desc={ch.desc} gradient={ch.gradient} index={i} />
@@ -169,7 +169,7 @@ export default function LeadGenServices() {
         </div>
 
         {/* CTA */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
