@@ -10,7 +10,7 @@ const footerLinks = {
     { label: "Game Development", href: "/services/game-development" },
     { label: "Email Marketing", href: "/services/email-marketing" },
     { label: "B2B Lead Generation", href: "/lead-generation" },
-    { label: "App Store Optimization", href: "/services/aso" },
+    { label: "App Store Optimization", href: "/services/aso" }, 
   ],
   Company: [
     { label: "About Us", href: "/about" },
@@ -56,7 +56,7 @@ export default function Footer() {
                 <MapPin size={14} className="mt-0.5 shrink-0" />
                 New Delhi, India
                 <br />
-                Sharjah, UAE
+                Dubai, UAE
               </div>
             </div>
           </div>
