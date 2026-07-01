@@ -179,7 +179,7 @@ export default function CaseStudies() {
                   ))}
                 </div>
 
-                <div className="pt-4">
+                {/* <div className="pt-4">
                   <Link
                     href={`/case-studies/${activeStudy.client.toLowerCase().replace(/\s+/g, '-')}`}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-500 hover:text-sky-600 transition-colors group"
@@ -187,7 +187,7 @@ export default function CaseStudies() {
                     Visit Case Study
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
-                </div>
+                </div> */}
               </motion.div>
             </AnimatePresence>
           </div>

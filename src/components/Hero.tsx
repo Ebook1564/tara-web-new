@@ -146,7 +146,7 @@ export default function Hero() {
 
           <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Custom software development and B2B lead generation under one roof.
-            From web & mobile apps to targeted prospect campaigns —
+            From web & mobile apps to targeted prospect campaigns
             we engineer growth from code to close.
           </p>
 

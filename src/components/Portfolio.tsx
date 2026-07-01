@@ -271,7 +271,7 @@ export default function Portfolio({ hideViewAll = false }: PortfolioProps) {
           ))}
         </div>
 
-        {!hideViewAll && (
+        {/* {!hideViewAll && (
           <div className="text-center mt-16">
             <Link
               href="/portfolio"
@@ -281,7 +281,7 @@ export default function Portfolio({ hideViewAll = false }: PortfolioProps) {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
             </Link>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );

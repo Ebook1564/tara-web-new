@@ -116,7 +116,9 @@ export default function ContactPage() {
                     <div className="w-10 h-10 rounded-xl bg-secondary/5 flex items-center justify-center shrink-0">
                       <MapPin size={18} className="text-secondary" />
                     </div>
-                    <span>New Delhi, India , Dubai, Sharjah</span>
+                    <span>New Delhi, India </span>
+                    <br />
+                    <span>Dubai, Sharjah</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-muted">
                     <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">

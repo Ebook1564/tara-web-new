@@ -12,7 +12,7 @@ const values = [
   {
     icon: Target,
     title: "Our Story",
-    desc: "Started in 2017 by Aman Deep Saxena as a solo app developer. After several successful Android apps, we expanded into full-stack services in 2021. Today we're a team of 20+ serving 1200+ clients globally.",
+    desc: "Started in 2017 by Aman Deep Saxena as a solo app developer. After several successful Android apps, we expanded into full-stack services in 2021. Today we're a team of 30+ serving 350+ clients globally.",
   },
   {
     icon: Eye,
@@ -205,10 +205,10 @@ export default function About() {
               Lead by <span className="text-[#4A7FD3]">Aman Deep Saxena</span>
             </h3>
             <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-              Tara Applications is led by Aman Deep Saxena, a technology professional with deep experience across digital products, platforms, and growth systems.
+              Tara Applications is lead by Aman Deep Saxena, a technology professional with deep experience across digital products, platforms, and growth systems.
             </p>
             <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-              Over the years, he has worked with clients globally on building, optimizing, and scaling technology-driven solutions — from mobile apps and web platforms to full B2B lead generation engines.
+              Over the years, he has worked with clients globally on building, optimizing, and scaling technology-driven solutions from mobile apps and web platforms to full B2B lead generation engines.
             </p>
             <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
               His approach combines technical execution with strategic thinking, enabling businesses to grow efficiently in competitive markets.
