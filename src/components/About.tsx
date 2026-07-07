@@ -3,17 +3,11 @@
 import { Outfit } from "next/font/google";
 const outfit = Outfit({ subsets: ["latin"] });
 
-import { Target, Eye, Cpu, ArrowRight } from "lucide-react";
+import { Target, Eye, Cpu } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const values = [
-  {
-    icon: Target,
-    title: "Our Story",
-    desc: "Started in 2017 by Aman Deep Saxena as a solo app developer. After several successful Android apps, we expanded into full-stack services in 2021. Today we're a team of 30+ serving 350+ clients globally.",
-  },
   {
     icon: Eye,
     title: "Our Vision",
@@ -22,7 +16,7 @@ const values = [
   {
     icon: Cpu,
     title: "Our Expertise",
-    desc: "From building custom APIs to full-stack IT solutions and targeted B2B campaigns — we engineer technology and generate leads that fuel business growth.",
+    desc: "From building custom APIs to full-stack IT solutions and targeted B2B campaigns, we engineer technology and generate leads that fuel business growth.",
   },
 ];
 
@@ -194,38 +188,64 @@ export default function About() {
           <h2 className={`text-3xl sm:text-4xl font-extrabold text-white tracking-tight ${outfit.className}`}>
             About <span className="text-[#4A7FD3]">Us</span>
           </h2>
-          <p className="mt-3 text-lg text-gray-400 max-w-2xl mx-auto">
-            A technology company that builds and grows — from apps and websites to pipelines and partnerships.
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-14 items-center mb-20">
-          <div className="space-y-5">
-            <h3 className={`text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight ${outfit.className}`}>
-              Lead by <span className="text-[#4A7FD3]">Aman Deep Saxena</span>
-            </h3>
-            <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-              Tara Applications is lead by Aman Deep Saxena, a technology professional with deep experience across digital products, platforms, and growth systems.
-            </p>
-            <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-              Over the years, he has worked with clients globally on building, optimizing, and scaling technology-driven solutions from mobile apps and web platforms to full B2B lead generation engines.
-            </p>
-            <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-              His approach combines technical execution with strategic thinking, enabling businesses to grow efficiently in competitive markets.
-            </p>
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 mt-2 text-[#4A7FD3] font-semibold hover:text-blue-400 transition-colors duration-200 group"
-            >
-              Learn more about us
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
-            </Link>
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-sm">
+              <Target size={14} className="text-purple-400" />
+              Founder
+            </span>
           </div>
+          <h3 className={`text-3xl sm:text-4xl font-black text-white tracking-tight leading-[1.05] mb-8 ${outfit.className}`}>
+            Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Aman Deep Saxena</span>
+          </h3>
+          <div className="grid lg:grid-cols-2 gap-14 items-center">
+            <FounderPhoto />
 
-          <FounderPhoto />
+            <div className="space-y-5">
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
+                Tara Applications is led by Aman Deep Saxena, a technology professional with deep experience across digital products, platforms and growth systems.
+              </p>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
+                Over the years he has worked with clients globally on building, optimizing and scaling technology driven solutions from mobile apps and web platforms to full B2B lead generation engines.
+              </p>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
+                He brings together technical execution and strategic thinking, enabling businesses to grow efficiently in competitive markets.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-16" />
+
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-sm">
+              <Eye size={14} className="text-blue-400" />
+              Our Journey
+            </span>
+          </div>
+          <h3 className={`text-3xl sm:text-4xl font-black text-white tracking-tight leading-[1.05] mb-8 ${outfit.className}`}>
+            About the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Company</span>
+          </h3>
+          <div className="space-y-5">
+            <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-4xl">
+              Tara Applications is a technology company built on a simple belief: great digital products can transform businesses and change lives.
+            </p>
+            <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-4xl">
+              Our journey began in 2017, when founder Aman Deep Saxena started out as a solo app developer with a clear goal &ndash; to build applications that offer genuinely unique solutions to real-world problems. Through consistent dedication and several successful releases on the Android platform, that early vision quickly gained traction.
+            </p>
+            <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-4xl">
+              In 2021, building on this momentum, we expanded beyond app development into full-stack technology services &ndash; encompassing web development, pipelines, and strategic partnerships. This marked the beginning of our evolution from a one-person practice into a growing team of skilled professionals.
+            </p>
+            <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-4xl">
+              Today, Tara Applications is a team of 30+ dedicated experts, proudly serving 350+ clients across the globe. We specialize in building apps, websites, robust technology pipelines, and long-term partnerships that help businesses scale.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
           {values.map((v, i) => (
             <GlassCard key={v.title} icon={v.icon} title={v.title} desc={v.desc} />
           ))}

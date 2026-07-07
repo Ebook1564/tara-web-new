@@ -124,8 +124,8 @@ export default function CaseStudies() {
               Case Studies
             </h2>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              <span className="block text-gray-900 font-bold mb-3">Helping Technology Companies Build Predictable Revenue Pipelines</span>
-              Explore how Tara Applications helps ambitious technology companies generate qualified opportunities, accelerate sales conversations, and build predictable client acquisition systems through strategic B2B lead generation.
+              <span className="block text-gray-900 font-bold mb-3">Helping Tech Companies Build Predictable Revenue Pipelines</span>
+              Find out how Tara Applications helps ambitious technology firms create qualifying opportunities, expedite sales conversations and build repeatable client acquisition systems through targeted B2B lead creation.
             </p>
             
             <div className="flex items-center gap-4">

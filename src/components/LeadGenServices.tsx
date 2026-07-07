@@ -116,15 +116,15 @@ export default function LeadGenServices() {
               Build pipeline that actually <span className="italic text-[#4A7FD3]">converts.</span>
             </h3>
             <p className="text-lg text-gray-600 leading-relaxed">
-              We combine AI automation with experienced outbound specialists to identify the right buyers, personalize every touchpoint, and consistently deliver qualified opportunities. With 5M+ leads generated and 10+ years of experience, our campaigns are built to create 3X pipeline growth, not just more emails.
+              We blend AI automation and experienced outbound specialists to identify the right buyers, personalize every touchpoint and consistently deliver qualified opportunities. 5M+ leads generated, 10+ years of experience. Our campaigns are built to deliver 3X pipeline growth, not more emails.
             </p>
 
             <ul className="space-y-4">
               {[
-                "AI-powered prospect research with human quality control",
+                "AI driven prospect research with human quality control",
                 "Multi-channel outbound campaigns that book qualified meetings",
                 "5M+ B2B leads generated across SaaS, IT & Professional Services",
-                "Proven framework delivering up to 3X pipeline growth",
+                "Proven framework that drives 3X+ pipeline growth",
               ].map((item, i) => (
                 <motion.li
                   key={i}

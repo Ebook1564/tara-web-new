@@ -128,7 +128,7 @@ export default function Testimonials() {
             What Our Clients <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Say</span>
           </h2>
           <p className="mt-4 text-lg text-gray-400 max-w-xl mx-auto">
-            Real feedback from partners who trust us to deliver exceptional software and robust lead generation.
+            Authentic feedback from our partners that rely on us to provide great software and strong lead generation.
           </p>
         </div>
 

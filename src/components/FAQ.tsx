@@ -85,7 +85,7 @@ export default function FAQ() {
               Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4A7FD3] to-[#E83398]">Questions</span>
             </h2>
             <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">
-              Everything you need to know about building your next big app or game with us.
+              All you need to know to build your next great app or game with us.We create premium cross-platform mobile apps for iOS and Android, as well as high-performance 2D/3D games (Unity, HTML5). We do everything from hyper-casual games to complicated dash-boards for SaaS.
             </p>
           </motion.div>
         </div>

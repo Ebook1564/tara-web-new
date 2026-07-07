@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Tara Applications | Full-Stack Development & B2B Lead Generation",
   description:
-    "Full-stack development, mobile apps, game development, email marketing & B2B lead generation. 2500+ projects delivered, 1200+ clients worldwide since 2017.",
+    "Full-stack digital solutions and B2B lead generation for growing businesses.",
   keywords: ["web development", "app development", "game development", "lead generation", "B2B", "digital marketing", "India"],
   openGraph: {
     title: "Tara Applications | Development & Lead Generation",

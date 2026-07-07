@@ -11,7 +11,7 @@ const projects = [
   {
     title: "Snappgames Platform",
     category: "Game Dev",
-    desc: "A high-performance gaming platform featuring a collection of addictive, high-quality web and mobile games.",
+    desc: "A High-Performance Gaming Platform Offering a Rich Library of Addictive, High-Quality Web and Mobile Games.",
     tag: "development",
     gradient: "from-[#4A7FD3] to-[#4A7FD3]/80",
     icon: Gamepad2,

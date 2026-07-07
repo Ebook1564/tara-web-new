@@ -12,7 +12,7 @@ const services = [
   {
     icon: Globe,
     title: "Web Development",
-    desc: "Full-stack web solutions — front-end, back-end, API integration, and database management using modern frameworks.",
+    desc: "We build complete web solutions - clean, user-friendly front-ends paired with powerful back-end systems, smooth API integrations, and solid database architecture, using today's leading frameworks.",
   },
   {
     icon: Smartphone,
@@ -22,7 +22,7 @@ const services = [
   {
     icon: Gamepad2,
     title: "Game Development",
-    desc: "Custom 2D, 3D, and multiplayer games from concept to launch — Unity, Unreal, and more.",
+    desc: "Custom 2D, 3D, and multiplayer games from concept to launch - Unity, Unreal, and more.",
   },
   {
     icon: Mail,
@@ -167,7 +167,7 @@ export default function DevServices() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-500 leading-relaxed font-medium"
           >
-            We build the digital products that power your business — from scratch to scale.
+            We develop the digital products that drive your business - from start to scale.
           </motion.p>
         </div>
 

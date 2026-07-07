@@ -19,9 +19,9 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
+      <Testimonials />
       <LeadGenFunnel />
       <LeadGenServices />
-      <Testimonials />
       <DevServices />
       <LeadGenProcess />
       <CaseStudies />
