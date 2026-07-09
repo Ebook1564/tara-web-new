@@ -10,9 +10,10 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     "Full Name": "",
     "Email": "",
-    "Company": "",
-    "Service": "Select a service",
-    "Message": "",
+    "Contact Number": "",
+    "Company Name": "",
+    "Service Needed": "",
+    "Message Needed": "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -102,26 +103,42 @@ export default function ContactPage() {
                       />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Company</label>
-                    <input
-                      type="text"
-                      name="Company"
-                      value={formData["Company"]}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
-                      placeholder="Your Company"
-                    />
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Contact Number</label>
+                      <input
+                        type="tel"
+                        name="Contact Number"
+                        value={formData["Contact Number"]}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                        placeholder="+1 (555) 000-0000"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">Company Name</label>
+                      <input
+                        type="text"
+                        name="Company Name"
+                        value={formData["Company Name"]}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                        placeholder="Your Company Name"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">Service Needed</label>
                     <select 
-                      name="Service"
-                      value={formData["Service"]}
+                      name="Service Needed"
+                      value={formData["Service Needed"]}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-muted focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                      required
+                      className={`w-full px-4 py-3 rounded-xl bg-surface border border-border focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all ${formData["Service Needed"] === "" ? "text-muted" : "text-foreground"}`}
                     >
-                      <option value="Select a service">Select a service</option>
+                      <option value="" disabled>Select a service</option>
                       <option value="Web Development">Web Development</option>
                       <option value="App Development">App Development</option>
                       <option value="Game Development">Game Development</option>
@@ -131,11 +148,11 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">Message</label>
+                    <label className="block text-sm font-medium text-foreground mb-2">Message Needed</label>
                     <textarea
                       rows={4}
-                      name="Message"
-                      value={formData["Message"]}
+                      name="Message Needed"
+                      value={formData["Message Needed"]}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground placeholder:text-muted/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all resize-none"
