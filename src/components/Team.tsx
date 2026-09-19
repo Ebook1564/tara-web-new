@@ -55,7 +55,7 @@ const teamMembers = [
   },
   {
     name: "Praveen Kumar",
-    role: "Core Team Member",
+    role: "Marketing Manager",
     image: "/images/team/praveen-kumar.png",
     bio: "Contributing to the team's ongoing success and supporting the execution of key company initiatives.",
     linkedin: "https://www.linkedin.com/in/praveen-kumar-08855a1b8/",
@@ -125,7 +125,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
           {/* We use an img tag instead of Next.js Image component for placeholders to avoid errors if the image is missing during dev. */}
           {/* In production, users can switch to Next/Image. */}
           <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-             <img
+            <img
               src={member.image}
               alt={member.name}
               className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
@@ -135,17 +135,17 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
               }}
             />
           </div>
-          
+
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0418] via-[#0a0418]/60 to-transparent opacity-90" />
-          
+
           <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
             <h4 className="text-2xl font-bold text-white mb-1 group-hover:text-[#4A7FD3] transition-colors">{member.name}</h4>
             <p className="text-blue-400 font-medium mb-3">{member.role}</p>
-            
+
             <div className={`overflow-hidden transition-all duration-500 ${isHovered ? "max-h-24 opacity-100 mb-4" : "max-h-0 opacity-0 mb-0"}`}>
               <p className="text-gray-300 text-sm leading-relaxed">{member.bio}</p>
             </div>
-            
+
             <div className={`flex items-center gap-3 transition-all duration-500 ${isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               <a
                 href={member.linkedin}
@@ -180,16 +180,16 @@ export default function Team() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Crystal 1 */}
         <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] animate-float rounded-3xl rotate-12" />
-        
+
         {/* Crystal 2 */}
         <div className="absolute bottom-[15%] right-[5%] w-80 h-80 bg-gradient-to-tl from-purple-400/10 to-pink-400/10 backdrop-blur-md border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] animate-float rounded-[2.5rem] -rotate-12" style={{ animationDelay: '2s' }} />
-        
+
         {/* Crystal 3 (Small Hexagon-ish) */}
         <div className="absolute top-[20%] right-[15%] w-32 h-32 bg-gradient-to-tr from-blue-300/20 to-cyan-300/20 backdrop-blur-lg border border-white/80 shadow-lg animate-float rounded-2xl rotate-45" style={{ animationDelay: '1s' }} />
-        
+
         {/* Crystal 4 (Circle) */}
         <div className="absolute bottom-[10%] left-[20%] w-48 h-48 bg-gradient-to-bl from-pink-300/15 to-orange-300/15 backdrop-blur-lg border border-white/70 shadow-lg animate-float rounded-full -rotate-12" style={{ animationDelay: '3s' }} />
-        
+
         {/* Pink Sparkles (Crystals) */}
         <SparkleIcon className="absolute top-[12%] left-[20%] w-6 h-6 text-pink-200/90 animate-pulse" />
         <SparkleIcon className="absolute top-[28%] right-[10%] w-10 h-10 text-pink-200/70 animate-pulse" style={{ animationDelay: '1s' }} />
