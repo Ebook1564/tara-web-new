@@ -14,6 +14,10 @@ const navItems = [
     href: "/lead-generation",
   },
   {
+    label: "Intelligence Sample",
+    href: "/intelligence-sample",
+  },
+  {
     label: "Development",
     href: "/services",
     dropdown: [
@@ -35,6 +39,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
+  const isLightRoute = pathname === "/intelligence-sample";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -43,6 +48,7 @@ export default function Header() {
   }, []);
 
   const isActive = (href: string) => pathname === href;
+  const shouldBeDarkText = scrolled || isLightRoute;
 
   return (
     <header
@@ -69,7 +75,7 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <img
-                src={scrolled ? "/images/logo.png" : "/images/logo-white.png"}
+                src={shouldBeDarkText ? "/images/logo.png" : "/images/logo-white.png"}
                 alt="TARA APPLICATIONS"
                 style={{ height: "36px", width: "auto", display: "block" }}
               />
@@ -88,7 +94,7 @@ export default function Header() {
                     <button
                       className={cn(
                         "flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-                        scrolled
+                        shouldBeDarkText
                           ? "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                           : "text-gray-300 hover:text-white hover:bg-white/10"
                       )}
@@ -120,10 +126,10 @@ export default function Header() {
                     className={cn(
                       "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                       isActive(item.href)
-                        ? scrolled
+                        ? shouldBeDarkText
                           ? "text-blue-600 bg-blue-50"
                           : "text-white bg-white/15"
-                        : scrolled
+                        : shouldBeDarkText
                           ? "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                           : "text-gray-300 hover:text-white hover:bg-white/10"
                     )}
@@ -151,7 +157,7 @@ export default function Header() {
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className={cn(
                   "lg:hidden p-2 rounded-lg transition-colors",
-                  scrolled ? "text-gray-600 hover:text-blue-600" : "text-gray-300 hover:text-white"
+                  shouldBeDarkText ? "text-gray-600 hover:text-blue-600" : "text-gray-300 hover:text-white"
                 )}
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
