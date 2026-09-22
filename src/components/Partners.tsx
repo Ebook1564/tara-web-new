@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Sparkles } from "lucide-react";
 
 const partners = [
+  { name: "MAGHGM", domain: "maghgm.com", color: "#8B5CF6" },
+  { name: "ASF Accounting", domain: "asf-accounting.ae", color: "#059669" },
   { name: "Kaizen Gaming", domain: "kaizengaming.com", color: "#F97316" },
   { name: "Sriida Solutions", domain: "sriidasolutions.com", color: "#1E3A8A" },
   { name: "Taashee", domain: "taashee.com", color: "#65A30D" },
