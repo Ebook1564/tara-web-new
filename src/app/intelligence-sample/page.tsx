@@ -200,7 +200,7 @@ export default function IntelligenceSamplePage() {
                       : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white hover:shadow-[0_8px_25px_rgba(147,51,234,0.3)] transform hover:-translate-y-0.5"
                     }`}
                 >
-                  {isChecking ? "Checking Database..." : "Get Intelligence Sample"}
+                  {isChecking ? "Processing..." : "Get Intelligence Sample"}
                   {!isChecking && <ArrowRight className="w-5 h-5" />}
                 </button>
 
