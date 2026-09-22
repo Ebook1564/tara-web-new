@@ -22,3 +22,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: 'Failed to save upload' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Missing id parameter' }, { status: 400 });
+    }
+
+    await pool.query('DELETE FROM "adminUploads" WHERE id = $1', [id]);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting admin upload:', error);
+    return NextResponse.json({ success: false, error: 'Failed to delete upload' }, { status: 500 });
+  }
+}

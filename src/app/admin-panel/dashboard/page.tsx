@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload, User, FileText, ArrowRight, LogOut, CheckCircle2, Database, Search } from "lucide-react";
+import { Upload, User, FileText, ArrowRight, LogOut, CheckCircle2, Database, Search, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,28 @@ export default function AdminDashboard() {
   const [success, setSuccess] = useState(false);
   const [clientData, setClientData] = useState<ClientData[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this entry?")) return;
+    
+    setDeletingId(id);
+    try {
+      const res = await fetch(`/api/admin/uploads?id=${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setClientData(prev => prev.filter(row => row.id !== id));
+      } else {
+        alert("Failed to delete entry.");
+      }
+    } catch (err) {
+      console.error("Error deleting entry:", err);
+      alert("Error deleting entry.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   useEffect(() => {
     if (activeTab === "data") {
@@ -310,18 +332,19 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Phone</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Company</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {isLoadingData ? (
                       <tr>
-                        <td colSpan={5} className="px-6 py-8 text-center text-gray-400">
+                        <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
                           Loading data...
                         </td>
                       </tr>
                     ) : clientData.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-6 py-8 text-center text-gray-400">
+                        <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
                           No data has been assigned yet.
                         </td>
                       </tr>
@@ -348,6 +371,20 @@ export default function AdminDashboard() {
                             }`}>
                               {row.status}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button 
+                              onClick={() => handleDelete(row.id)}
+                              disabled={deletingId === row.id}
+                              className="text-red-400 hover:text-red-300 transition-colors disabled:opacity-50"
+                              title="Delete Entry"
+                            >
+                              {deletingId === row.id ? (
+                                <span className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-red-400"></span>
+                              ) : (
+                                <Trash2 className="h-4 w-4" />
+                              )}
+                            </button>
                           </td>
                         </tr>
                       ))
