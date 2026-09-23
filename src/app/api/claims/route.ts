@@ -10,6 +10,7 @@ export async function GET() {
         COALESCE(c.email, 'Waiting...') as "email", 
         COALESCE(c.phone, 'Waiting...') as "phone", 
         a.file_name as "company", 
+        a.row_count,
         CASE WHEN c.id IS NOT NULL THEN 'Claimed' ELSE 'Pending' END as "status"
       FROM "adminUploads" a
       LEFT JOIN "clientsDubai" c ON LOWER(a.target_username) = LOWER(c.name)

@@ -37,6 +37,7 @@ async function setupAWS() {
         target_username VARCHAR(255) NOT NULL,
         file_name VARCHAR(255) NOT NULL,
         file_data TEXT NOT NULL,
+        row_count INTEGER NOT NULL DEFAULT 0,
         uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);

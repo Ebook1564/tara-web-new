@@ -2,7 +2,6 @@
 
 import { Upload, User, FileText, ArrowRight, LogOut, CheckCircle2, Database, Search, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // Types for fetched data
@@ -12,6 +11,7 @@ interface ClientData {
   email: string;
   phone: string;
   company: string;
+  row_count: number;
   status: string;
 }
 
@@ -19,7 +19,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"upload" | "data">("upload");
   const [username, setUsername] = useState("");
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [clientData, setClientData] = useState<ClientData[]>([]);
@@ -47,12 +47,6 @@ export default function AdminDashboard() {
     }
   };
 
-  useEffect(() => {
-    if (activeTab === "data") {
-      fetchClientData();
-    }
-  }, [activeTab]);
-
   const fetchClientData = async () => {
     setIsLoadingData(true);
     try {
@@ -68,17 +62,22 @@ export default function AdminDashboard() {
     }
   };
 
+  useEffect(() => {
+    if (activeTab === "data") {
+      fetchClientData();
+    }
+  }, [activeTab]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      if (
-        selectedFile.type === "text/csv" || 
-        selectedFile.name.endsWith(".csv") ||
-        selectedFile.name.endsWith(".xlsx")
-      ) {
-        setFile(selectedFile);
+      const selectedFiles = Array.from(e.target.files).filter((f) => {
+        const valid = f.type === "text/csv" || f.name.endsWith(".csv") || f.name.endsWith(".xlsx");
+        if (!valid) alert(`Skipping "${f.name}" - only CSV or Excel (.xlsx) files are allowed.`);
+        return valid;
+      });
+      if (selectedFiles.length > 0) {
+        setFiles(selectedFiles);
       } else {
-        alert("Please upload a valid CSV or Excel (.xlsx) file.");
         e.target.value = "";
       }
     }
@@ -86,52 +85,67 @@ export default function AdminDashboard() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !file) {
-      alert("Please provide both a username and a file.");
+    if (!username || files.length === 0) {
+      alert("Please provide both a username and at least one file.");
       return;
     }
-    
-    setIsSubmitting(true);
-    
-    // Read the file and save to database via API
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const base64Data = event.target?.result as string;
-      
-      try {
-        const res = await fetch('/api/admin/uploads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: username,
-            fileName: file.name,
-            fileData: base64Data
-          })
-        });
 
-        if (res.ok) {
-          setTimeout(() => {
-            setIsSubmitting(false);
-            setSuccess(true);
-            setUsername("");
-            setFile(null);
-            
-            setTimeout(() => {
-              setSuccess(false);
-              setActiveTab("data"); 
-            }, 2000);
-          }, 1000);
-        } else {
-          alert("Failed to upload to database. Check console.");
-          setIsSubmitting(false);
+    setIsSubmitting(true);
+
+    const uploadFile = async (file: File): Promise<boolean> => {
+      const reader = new FileReader();
+      return new Promise((resolve) => {
+        reader.onload = async (event) => {
+          const base64Data = event.target?.result as string;
+          try {
+            const res = await fetch('/api/admin/uploads', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: username,
+                fileName: file.name,
+                fileData: base64Data
+              })
+            });
+            resolve(res.ok);
+          } catch (err) {
+            console.error(err);
+            resolve(false);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+
+    const uploadAll = async () => {
+      let failed = false;
+      for (const file of files) {
+        const ok = await uploadFile(file);
+        if (!ok) {
+          failed = true;
+          console.error(`Failed to upload ${file.name}`);
         }
-      } catch (err) {
-        console.error(err);
+      }
+
+      if (!failed) {
+        setTimeout(() => {
+          setIsSubmitting(false);
+          setSuccess(true);
+          setUsername("");
+          setFiles([]);
+
+          setTimeout(() => {
+            setSuccess(false);
+            setActiveTab("data");
+          }, 2000);
+        }, 500);
+      } else {
+        alert("Some files could not be uploaded. Check console for details.");
         setIsSubmitting(false);
       }
     };
 
-    reader.readAsDataURL(file);
+    uploadAll();
   };
 
   const handleLogout = () => {
@@ -245,6 +259,7 @@ export default function AdminDashboard() {
                     <input
                       type="file"
                       id="csvFile"
+                      multiple
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                       onChange={handleFileChange}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -252,16 +267,22 @@ export default function AdminDashboard() {
                     />
                     
                     <div className={`w-full border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 flex flex-col items-center justify-center gap-3
-                      ${file ? "border-purple-500/50 bg-purple-500/5" : "border-white/10 bg-white/5 group-hover:border-purple-500/30 group-hover:bg-white/10"}`}
+                      ${files.length > 0 ? "border-purple-500/50 bg-purple-500/5" : "border-white/10 bg-white/5 group-hover:border-purple-500/30 group-hover:bg-white/10"}`}
                     >
-                      {file ? (
+                      {files.length > 0 ? (
                         <>
                           <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mb-2">
                             <FileText size={24} />
                           </div>
-                          <div className="text-white font-medium">{file.name}</div>
-                          <div className="text-xs text-gray-400">
-                            {(file.size / 1024).toFixed(2)} KB • Ready to upload
+                          <div className="text-white font-medium">
+                            {files.length} file{files.length > 1 ? "s" : ""} selected
+                          </div>
+                          <div className="text-xs text-gray-400 max-w-full space-y-1">
+                            {files.map((f) => (
+                              <div key={f.name} className="truncate">
+                                {f.name} • {(f.size / 1024).toFixed(2)} KB
+                              </div>
+                            ))}
                           </div>
                         </>
                       ) : (
@@ -271,7 +292,7 @@ export default function AdminDashboard() {
                           </div>
                           <div className="text-gray-300 font-medium">Click to upload or drag and drop</div>
                           <div className="text-xs text-gray-500">
-                            CSV or XLSX (Excel) files only
+                            CSV or XLSX (Excel) files only • You can select multiple
                           </div>
                         </>
                       )}
@@ -281,9 +302,9 @@ export default function AdminDashboard() {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting || !username || !file}
+                  disabled={isSubmitting || !username || files.length === 0}
                   className={`w-full flex items-center justify-center gap-2 font-bold rounded-xl px-4 py-4 transition-all duration-300 shadow-[0_0_20px_rgba(147,51,234,0.3)]
-                    ${(isSubmitting || !username || !file) 
+                    ${(isSubmitting || !username || files.length === 0) 
                       ? "bg-white/10 text-gray-500 cursor-not-allowed shadow-none" 
                       : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] transform hover:-translate-y-0.5"
                     }
@@ -293,7 +314,7 @@ export default function AdminDashboard() {
                     "Processing Upload..."
                   ) : (
                     <>
-                      Upload and Assign Data
+                      Upload and Assign {files.length > 1 ? `${files.length} Files` : "Data"}
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
@@ -331,6 +352,7 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Phone</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Company</th>
+                      <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Records</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
                       <th className="px-6 py-4 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Actions</th>
                     </tr>
@@ -338,13 +360,13 @@ export default function AdminDashboard() {
                   <tbody className="divide-y divide-white/5">
                     {isLoadingData ? (
                       <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
+                        <td colSpan={7} className="px-6 py-8 text-center text-gray-400">
                           Loading data...
                         </td>
                       </tr>
                     ) : clientData.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
+                        <td colSpan={7} className="px-6 py-8 text-center text-gray-400">
                           No data has been assigned yet.
                         </td>
                       </tr>
@@ -362,6 +384,9 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-400">{row.company}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-400">{row.row_count}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
