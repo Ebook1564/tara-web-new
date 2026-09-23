@@ -29,7 +29,7 @@ export default function IntelligenceSamplePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+971");
+  const [countryCode, setCountryCode] = useState("+91");
   const [isChecking, setIsChecking] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -69,7 +69,7 @@ export default function IntelligenceSamplePage() {
         body: JSON.stringify({
           name: name,
           email: email,
-          phone: `${countryCode} ${phone}`,
+          phone: countryCode ? `${countryCode} ${phone}` : phone,
           csv_name: sample.file_name || "unknown.csv",
         }),
       });
@@ -227,13 +227,30 @@ export default function IntelligenceSamplePage() {
                         Phone Number <span className="text-red-500">*</span>
                       </label>
                       <div className="flex gap-3">
-                        <input
-                          type="text"
+                        <select
+                          id="countryCode"
+                          name="countryCode"
                           value={countryCode}
-                          onChange={(e) => setCountryCode(e.target.value.replace(/[^0-9+]/g, ''))}
-                          placeholder="+971"
-                          className="w-24 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm text-center"
-                        />
+                          onChange={(e) => setCountryCode(e.target.value)}
+                          className="w-28 bg-slate-50 border border-slate-200 rounded-xl px-3 py-3.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm"
+                        >
+                          <option value="" disabled>Code</option>
+                          <option value="+971">UAE +971</option>
+                          <option value="+44">UK +44</option>
+                          <option value="+91">India +91</option>
+                          <option value="+1">USA +1</option>
+                          <option value="+966">Saudi +966</option>
+                          <option value="+974">Qatar +974</option>
+                          <option value="+973">Bahrain +973</option>
+                          <option value="+965">Kuwait +965</option>
+                          <option value="+968">Oman +968</option>
+                          <option value="+20">Egypt +20</option>
+                          <option value="+49">Germany +49</option>
+                          <option value="+33">France +33</option>
+                          <option value="+61">Australia +61</option>
+                          <option value="+65">Singapore +65</option>
+                          <option value="+00">Other</option>
+                        </select>
                         <input
                           type="tel"
                           id="phone"
@@ -241,7 +258,7 @@ export default function IntelligenceSamplePage() {
                           required
                           value={phone}
                           onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                          placeholder="50 000 0000"
+                          placeholder={countryCode ? `${countryCode} 50 000 0000` : "50 000 0000"}
                           className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm"
                         />
                       </div>
