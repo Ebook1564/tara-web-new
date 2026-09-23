@@ -2,22 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-// List of companies (Luxury brands + MAGHGM + ASF Accounting)
+// List of exactly 4 requested companies
 const clientCompanies = [
-  { name: "Chalhoub Group", domain: "chalhoubgroup.com" },
-  { name: "Level Shoes", domain: "levelshoes.com" },
-  { name: "Amber", domain: "myamber.ae" },
-  { name: "Emaar", domain: "emaar.com" },
-  { name: "The Edition", domain: "editionhotels.com" },
-  { name: "Beach Rotana", domain: "rotana.com" },
-  { name: "Duomo", domain: "duomo-dubai.com" },
   { name: "MAGHGM", domain: "maghgm.com" },
   { name: "ASF Accounting", domain: "asf-accounting.ae" },
   { name: "Dubai Holding", domain: "dubaiholding.com" },
   { name: "Sobha", domain: "sobharealty.com" },
-  { name: "Deyaar", domain: "deyaar.ae" },
-  { name: "Al Habtoor", domain: "habtoor.com" },
-  { name: "FGB", domain: "bankfab.com" },
 ];
 
 function LogoItem({ company }: { company: { name: string; domain: string } }) {
@@ -85,8 +75,8 @@ export default function ClientLogos() {
           </p>
         </div>
 
-        {/* Logos Grid: Restricted to 2 rows based on screen size (14 items = 7 cols x 2 rows on large screens) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-x-6 gap-y-10 items-center justify-items-center">
+        {/* Logos Grid: Restricted to 1 row of exactly 4 companies */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-10 items-center justify-items-center max-w-4xl mx-auto">
           {clientCompanies.map((company, idx) => (
             <LogoItem key={idx} company={company} />
           ))}

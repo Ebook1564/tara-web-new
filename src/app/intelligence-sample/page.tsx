@@ -28,8 +28,8 @@ interface SampleDetail {
 export default function IntelligenceSamplePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+971");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
   const [isChecking, setIsChecking] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -69,7 +69,7 @@ export default function IntelligenceSamplePage() {
         body: JSON.stringify({
           name: name,
           email: email,
-          phone: countryCode ? `${countryCode} ${phone}` : phone,
+          phone: `${countryCode} ${phone}`,
           csv_name: sample.file_name || "unknown.csv",
         }),
       });
@@ -227,30 +227,15 @@ export default function IntelligenceSamplePage() {
                         Phone Number <span className="text-red-500">*</span>
                       </label>
                       <div className="flex gap-3">
-                        <select
+                        <input
+                          type="text"
                           id="countryCode"
                           name="countryCode"
                           value={countryCode}
-                          onChange={(e) => setCountryCode(e.target.value)}
-                          className="w-28 bg-slate-50 border border-slate-200 rounded-xl px-3 py-3.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm"
-                        >
-                          <option value="" disabled>Code</option>
-                          <option value="+971">UAE +971</option>
-                          <option value="+44">UK +44</option>
-                          <option value="+91">India +91</option>
-                          <option value="+1">USA +1</option>
-                          <option value="+966">Saudi +966</option>
-                          <option value="+974">Qatar +974</option>
-                          <option value="+973">Bahrain +973</option>
-                          <option value="+965">Kuwait +965</option>
-                          <option value="+968">Oman +968</option>
-                          <option value="+20">Egypt +20</option>
-                          <option value="+49">Germany +49</option>
-                          <option value="+33">France +33</option>
-                          <option value="+61">Australia +61</option>
-                          <option value="+65">Singapore +65</option>
-                          <option value="+00">Other</option>
-                        </select>
+                          onChange={(e) => setCountryCode(e.target.value.replace(/[^\d\s+-]/g, ''))}
+                          placeholder="+971"
+                          className="w-24 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm text-center"
+                        />
                         <input
                           type="tel"
                           id="phone"
@@ -258,7 +243,7 @@ export default function IntelligenceSamplePage() {
                           required
                           value={phone}
                           onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                          placeholder={countryCode ? `${countryCode} 50 000 0000` : "50 000 0000"}
+                          placeholder="50 000 0000"
                           className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 focus:bg-white transition-all shadow-sm"
                         />
                       </div>
@@ -267,21 +252,34 @@ export default function IntelligenceSamplePage() {
                     <button
                       type="submit"
                       disabled={isChecking}
-                      className={`w-full flex items-center justify-center gap-2 font-bold rounded-xl px-4 py-4 transition-all duration-300 shadow-[0_8px_20px_rgba(147,51,234,0.2)] 
+                      className={`group relative w-full flex items-center justify-center gap-3 font-bold text-lg rounded-2xl px-8 py-4.5 transition-all duration-500 overflow-hidden isolate
                         ${isChecking 
-                          ? "bg-slate-200 text-slate-500 shadow-none cursor-not-allowed" 
-                          : "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white hover:shadow-[0_8px_25px_rgba(147,51,234,0.3)] transform hover:-translate-y-0.5"
+                          ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed" 
+                          : "text-white shadow-[0_10px_40px_-10px_rgba(147,51,234,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(147,51,234,0.8)] transform hover:-translate-y-1"
                         }`}
                     >
+                      {!isChecking && (
+                        <>
+                          {/* Rich animated gradient base */}
+                          <div className="absolute inset-0 -z-20 bg-gradient-to-r from-purple-600 via-indigo-500 to-blue-500 transition-all duration-500 group-hover:scale-105" />
+                          
+                          {/* Inner glow / reflection */}
+                          <div className="absolute inset-0 -z-10 rounded-2xl border-t border-white/30 border-b border-black/20 mix-blend-overlay" />
+                          
+                          {/* Sweeping Sheen Effect */}
+                          <div className="absolute inset-0 -z-10 -translate-x-[150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 ease-out skew-x-12" />
+                        </>
+                      )}
+
                       {isChecking ? (
                         <>
                           <Loader2 className="w-5 h-5 animate-spin" />
-                          Checking for Samples...
+                          Processing...
                         </>
                       ) : (
                         <>
-                          Get Intelligence Samples
-                          <ArrowRight className="w-5 h-5" />
+                          <span className="relative z-10 tracking-wide drop-shadow-sm">Get your leads</span>
+                          <ArrowRight className="w-5 h-5 relative z-10 transition-transform duration-500 group-hover:translate-x-1.5 group-hover:drop-shadow-sm" />
                         </>
                       )}
                     </button>
