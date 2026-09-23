@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { Sparkles } from "lucide-react";
 
 const partners = [
-  { name: "MAGHGM", domain: "maghgm.com", color: "#8B5CF6" },
-  { name: "ASF Accounting", domain: "asf-accounting.ae", color: "#059669" },
   { name: "Kaizen Gaming", domain: "kaizengaming.com", color: "#F97316" },
   { name: "Sriida Solutions", domain: "sriidasolutions.com", color: "#1E3A8A" },
   { name: "Taashee", domain: "taashee.com", color: "#65A30D" },
+  { name: "MAGHGM", domain: "maghgm.com", color: "#8B5CF6" },
+  { name: "ASF Accounting", domain: "asf-accounting.ae", color: "#059669" },
   { name: "Profoto", domain: "profoto.com", color: "#EA580C" },
   { name: "Boie USA", domain: "boieusa.com", color: "#0284C7" },
   { name: "Patriot Gold", domain: "patriotgoldgroup.com", color: "#D97706" },
@@ -51,7 +51,7 @@ function PartnerBadge({ p }: { p: { name: string; domain: string; color: string 
             alt={`${p.name} logo`}
             width={32}
             height={32}
-            className="transition-all duration-500 group-hover:scale-110"
+            className="transition-all duration-500 group-hover:scale-110 bg-white rounded-md p-0.5"
             onError={() => setFailed(true)}
           />
         )}
@@ -140,7 +140,6 @@ export default function Partners() {
           
           <MarqueeRow items={partners} speed={25} />
           <MarqueeRow items={[...partners].reverse()} reverse speed={35} />
-          <MarqueeRow items={[...partners.slice(6), ...partners.slice(0, 6)]} speed={30} />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import Testimonials from "@/components/Testimonials";
+import ClientLogos from "@/components/ClientLogos";
 import {
   ArrowRight,
   CheckCircle2,
@@ -391,9 +391,9 @@ export default function IntelligenceSamplePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials / Partners Section */}
       <div className="mt-12 relative z-10">
-        <Testimonials />
+        <ClientLogos />
       </div>
     </div>
   );
