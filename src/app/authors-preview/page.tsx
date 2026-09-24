@@ -49,9 +49,15 @@ export default function IntelligenceSamplePage() {
           setSamples(fetchObj.data || []);
         } else {
           setMessage({
-            text: "No intelligence data found for this name. Please ensure it matches exactly what was assigned to you.",
+            text: "Please enter your name exactly as it appears on your LinkedIn profile to access the Preview.",
             type: "error",
           });
+          // Log the failed access attempt
+          fetch("/api/admin/access-logs", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username_attempted: name.trim(), service_type: "Author", email: email.trim(), phone: `${countryCode} ${phone}`.trim() }),
+          }).catch(() => {});
         }
       } catch {
         setMessage({ text: "An error occurred while checking for your data.", type: "error" });
