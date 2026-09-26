@@ -21,6 +21,21 @@ export default function AuthorsDashboard() {
   const [clientData, setClientData] = useState<ClientData[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState<"All" | "Claimed" | "Waiting">("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const ROWS_PER_PAGE = 10;
+
+  const filteredData = clientData.filter((row) => {
+    const matchesStatus = statusFilter === "All" || row.status === statusFilter;
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      !q ||
+      row.name.toLowerCase().includes(q) ||
+      row.email.toLowerCase().includes(q) ||
+      row.phone.toLowerCase().includes(q);
+    return matchesStatus && matchesSearch;
+  });
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this entry?")) return;
@@ -238,17 +253,45 @@ export default function AuthorsDashboard() {
         {activeTab === "data" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="bg-white backdrop-blur-xl border border-gray-200 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <h2 className="text-xl font-bold text-gray-900">Uploaded Intelligence Data</h2>
-                <div className="relative w-full sm:w-auto">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
+              <div className="p-6 border-b border-gray-200 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <h2 className="text-xl font-bold text-gray-900">Uploaded Intelligence Data</h2>
+                  <div className="relative w-full sm:w-auto">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search name, email, phone..."
+                      value={searchQuery}
+                      onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                      className="w-full sm:w-64 bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Search data..."
-                    className="w-full sm:w-64 bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
-                  />
+                </div>
+                {/* Status Filter Tabs */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-gray-500 font-medium mr-1">Filter:</span>
+                  {(["All", "Claimed", "Waiting"] as const).map((status) => (
+                    <button
+                      key={status}
+                      onClick={() => { setStatusFilter(status); setCurrentPage(1); }}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                        statusFilter === status
+                          ? status === "Claimed"
+                            ? "bg-green-100 text-green-700 border-green-300"
+                            : status === "Waiting"
+                            ? "bg-yellow-100 text-yellow-700 border-yellow-300"
+                            : "bg-purple-600 text-white border-purple-600"
+                          : "bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200"
+                      }`}
+                    >
+                      {status}
+                      <span className="ml-1.5 opacity-70">
+                        ({status === "All" ? clientData.length : clientData.filter(r => r.status === status).length})
+                      </span>
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -270,14 +313,16 @@ export default function AuthorsDashboard() {
                           Loading data...
                         </td>
                       </tr>
-                    ) : clientData.length === 0 ? (
+                    ) : filteredData.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                          No data has been assigned yet.
+                          {clientData.length === 0 ? "No data has been assigned yet." : "No entries match your filter."}
                         </td>
                       </tr>
                     ) : (
-                      clientData.map((row) => (
+                      filteredData
+                        .slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE)
+                        .map((row) => (
                         <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">{row.name}</div>
@@ -319,11 +364,46 @@ export default function AuthorsDashboard() {
               </div>
               
               <div className="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between text-xs text-gray-500">
-                <span>Showing {clientData.length} entries</span>
+                <span>
+                  Showing {filteredData.length === 0 ? 0 : Math.min((currentPage - 1) * ROWS_PER_PAGE + 1, filteredData.length)}–{Math.min(currentPage * ROWS_PER_PAGE, filteredData.length)} of {filteredData.length} entries
+                  {statusFilter !== "All" && <span className="ml-1 text-gray-400">(filtered from {clientData.length} total)</span>}
+                </span>
                 <div className="flex gap-2">
-                  <button className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 transition-colors cursor-not-allowed text-gray-400">Previous</button>
-                  <button className="px-3 py-1 rounded bg-purple-600 text-white">1</button>
-                  <button className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 transition-colors cursor-not-allowed text-gray-400">Next</button>
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-1 rounded transition-colors ${
+                      currentPage === 1
+                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                        : "bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                    }`}
+                  >
+                    Previous
+                  </button>
+                  {Array.from({ length: Math.ceil(filteredData.length / ROWS_PER_PAGE) }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`px-3 py-1 rounded transition-colors ${
+                        page === currentPage
+                          ? "bg-purple-600 text-white"
+                          : "bg-gray-200 hover:bg-gray-300 text-gray-700"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.min(p + 1, Math.ceil(filteredData.length / ROWS_PER_PAGE)))}
+                    disabled={currentPage === Math.ceil(filteredData.length / ROWS_PER_PAGE) || filteredData.length === 0}
+                    className={`px-3 py-1 rounded transition-colors ${
+                      currentPage === Math.ceil(filteredData.length / ROWS_PER_PAGE) || filteredData.length === 0
+                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                        : "bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
+                    }`}
+                  >
+                    Next
+                  </button>
                 </div>
               </div>
             </div>
