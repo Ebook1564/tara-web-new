@@ -1,0 +1,621 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Outreach Intelligence System</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one dark stage. Interactive funnel beside a live detail panel, then four short sections that answer a buyer's questions in order. */
+:root{
+  --bg:#07040a;
+  --surface:#120a18;
+  --surface-2:#1a0f22;
+  --line:#2d1c38;
+  --fg:#f6f0f8;
+  --muted:#b7a8c0;
+  --magenta:#ff33cc;
+  --magenta-soft:#ff7ddc;
+  --violet:#7b2cff;
+  --ok:#5ee6a8;
+  --warn:#ffb15c;
+  --display:"Raleway","Segoe UI",system-ui,sans-serif;
+  --body:"DM Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  overflow-x:hidden;position:relative;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(60vmax 45vmax at 100% 0%, color-mix(in srgb,var(--magenta) 28%,transparent), transparent 60%),
+    radial-gradient(50vmax 40vmax at 0% 100%, color-mix(in srgb,var(--violet) 30%,transparent), transparent 60%);
+}
+main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding-block:48px 72px;display:flex;flex-direction:column;gap:96px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+.accent{color:var(--magenta);font-weight:800}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta-soft)}
+:focus-visible{outline:2px solid var(--magenta-soft);outline-offset:3px;border-radius:6px}
+
+/* Hero */
+.hero{display:flex;flex-direction:column;gap:14px;text-align:center;align-items:center}
+.hero h1{font-size:clamp(34px,6vw,64px);font-weight:300;letter-spacing:-.01em}
+.tagline{font-family:var(--display);font-size:clamp(18px,2.4vw,24px);font-weight:500;color:var(--fg)}
+.pitch{max-width:62ch;color:var(--muted)}
+
+/* Film */
+.film{display:flex;flex-direction:column;gap:14px;align-items:center}
+.film-frame{position:relative;width:100%;max-width:980px;aspect-ratio:1344/768;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:0 0 70px color-mix(in srgb,var(--magenta) 22%,transparent)}
+.film-frame video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+.film-ctl{position:absolute;right:14px;bottom:14px;display:flex;gap:8px}
+.film-ctl .btn{background:color-mix(in srgb,#000 60%,transparent);backdrop-filter:blur(6px);font-size:13px;padding:7px 14px}
+.film-cap{color:var(--muted);font-size:14px;text-align:center}
+
+/* Client dashboard preview */
+.dash-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:0 0 60px color-mix(in srgb,var(--violet) 20%,transparent)}
+.dash-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.dash-dots{display:flex;gap:6px}.dash-dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dash-url{flex:1;min-width:0;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dash-frame iframe{display:block;width:100%;height:760px;border:0;background:#f7f7fb}
+.dash-frame.full{position:fixed;z-index:50;top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);left:env(safe-area-inset-left,0px);right:env(safe-area-inset-right,0px);border-radius:0;display:flex;flex-direction:column}
+.dash-frame.full iframe{flex:1;height:auto}
+.dash-feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.dash-feat{padding:20px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.dash-feat strong{font-family:var(--display);font-size:17px}
+.dash-feat span{color:var(--muted);font-size:14px}
+@media (max-width:860px){.dash-feats{grid-template-columns:minmax(0,1fr)}.dash-frame iframe{height:640px}}
+
+/* Phone mockup */
+.app[hidden],.lock[hidden]{display:none}
+.phone-stage{display:flex;justify-content:center;min-width:0}
+.phone{width:min(310px,100%);aspect-ratio:310/640;border-radius:46px;padding:11px;background:linear-gradient(145deg,#2a1d33,#0c0710);box-shadow:0 0 0 1px #3a2a45,0 30px 80px rgba(0,0,0,.6),0 0 90px color-mix(in srgb,var(--magenta) 22%,transparent)}
+.screen{position:relative;height:100%;border-radius:36px;overflow:hidden;background:radial-gradient(120% 60% at 100% 0%,#6b1263 0%,transparent 60%),radial-gradient(100% 60% at 0% 100%,#3b1a8a 0%,transparent 60%),#0a0510;color:#fff;display:flex;flex-direction:column}
+.status{display:flex;justify-content:space-between;align-items:center;padding:12px 22px 0;font:600 13px var(--body);position:relative;z-index:3}
+.notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:92px;height:26px;border-radius:14px;background:#000}
+.sig{font-size:11px;letter-spacing:.04em}
+.lock{flex:1;display:flex;flex-direction:column;align-items:center;padding:26px 12px 0;gap:8px;min-height:0}
+.lock-date{font:500 15px var(--body);color:rgba(255,255,255,.85)}
+.lock-time{font:300 76px/1 var(--display);letter-spacing:-.02em;margin-bottom:24px}
+.notif{width:100%;display:flex;gap:10px;align-items:flex-start;text-align:left;padding:11px 12px;border-radius:20px;border:0;color:#fff;font:inherit;background:rgba(255,255,255,.16);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer}
+button.notif{animation:drop .7s cubic-bezier(.2,.9,.3,1.2) both}
+button.notif:hover{background:rgba(255,255,255,.22)}
+button.notif:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.notif.ghost{cursor:default;opacity:.55;transform:scale(.96);margin-top:-2px}
+@keyframes drop{0%{opacity:0;transform:translateY(-24px) scale(.96)}100%{opacity:1;transform:none}}
+.app-ic{flex:none;width:36px;height:36px;border-radius:9px;background:#fff;padding:3px;object-fit:contain}
+.n-body{min-width:0;display:flex;flex-direction:column;gap:1px;font-size:13px;line-height:1.35}
+.n-top{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.03em}
+.n-top b{font-weight:600}
+.n-body strong{font-size:14px}
+.tap-hint{margin-top:auto;margin-bottom:28px;display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.75)}
+.ring{width:12px;height:12px;border-radius:50%;background:var(--magenta);box-shadow:0 0 0 0 color-mix(in srgb,var(--magenta) 70%,transparent);animation:ping 1.6s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 12px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.home-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:110px;height:5px;border-radius:3px;background:rgba(255,255,255,.75);z-index:3}
+.app{position:absolute;inset:0;z-index:2;background:#0f0915;display:flex;flex-direction:column;padding-top:44px;animation:open .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes open{0%{opacity:0;transform:scale(.92) translateY(18px);border-radius:36px}100%{opacity:1;transform:none}}
+.app-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 14px 10px;border-bottom:1px solid #2a1c34}
+.back{border:0;background:none;color:var(--magenta-soft);font:600 15px var(--body);cursor:pointer;padding:4px 2px}
+.app-scroll{flex:1;overflow-y:auto;padding:14px 16px 16px;display:flex;flex-direction:column;gap:13px;scrollbar-width:none}
+.app-scroll::-webkit-scrollbar{display:none}
+.m-head{display:flex;gap:12px;align-items:center}
+.cal-tile{flex:none;width:50px;border-radius:10px;overflow:hidden;text-align:center;border:1px solid #2d1c38;background:#1a0f22}
+.cal-tile span{display:block;font:500 9px var(--mono);letter-spacing:.12em;color:#fff;background:linear-gradient(90deg,var(--magenta),var(--violet));padding:2px 0}
+.cal-tile b{display:block;font:800 22px/1.3 var(--display)}
+.m-title{min-width:0}
+.m-title h3{font-size:16px;font-weight:800}
+.m-title p{font-size:12px;color:var(--muted)}
+.chan{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;font:500 12px var(--body);border:1px solid #2d1c38;background:#1a0f22;border-radius:999px;padding:5px 11px}
+.chan svg{width:14px;height:14px;stroke:var(--magenta-soft);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.person{display:flex;align-items:center;gap:10px}
+.person b{display:block;font-size:13px}.person small{display:block;font-size:11px;color:var(--muted)}
+.av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--body);font-style:normal;background:linear-gradient(135deg,var(--magenta),var(--violet))}
+.blk{display:flex;flex-direction:column;gap:5px}
+.lbl{font:500 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--magenta-soft)}
+.blk p{font-size:13px;line-height:1.5}
+.said blockquote{margin:0;padding:10px 12px;border-radius:12px;background:#24112c;font-size:13px;line-height:1.5;font-style:italic}
+.asks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;counter-reset:a}
+.asks li{counter-increment:a;display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:13px;line-height:1.45}
+.asks li::before{content:counter(a);width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font:700 11px var(--body);color:var(--magenta-soft);border:1px solid #5a2a5a}
+.app .asks li{animation:rise .4s both}.app .asks li:nth-child(2){animation-delay:.12s}.app .asks li:nth-child(3){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ok{display:flex;gap:7px;align-items:flex-start;font-size:12px;color:var(--muted)}
+.ok svg{flex:none;width:15px;height:15px;stroke:var(--ok);stroke-width:2.4;fill:none;margin-top:1px}
+.app-cta{margin:0 16px 24px;padding:12px;border-radius:14px;text-align:center;font:700 14px var(--body);background:linear-gradient(90deg,var(--magenta),var(--violet))}
+@media (prefers-reduced-motion:reduce){.ring{animation:none}}
+
+/* Funnel stage */
+.stage{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center}
+.funnel-wrap{position:relative;width:100%;max-width:470px;margin:0 auto;aspect-ratio:400/400}
+.funnel-wrap svg,.funnel-wrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.funnel-wrap canvas{pointer-events:none}
+.layer{cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s;transform-box:fill-box;transform-origin:center}
+.layer .body{transition:opacity .3s}
+.layer:hover{filter:brightness(1.15)}
+.layer.active{transform:scale(1.045);filter:drop-shadow(0 0 18px color-mix(in srgb,var(--magenta) 70%,transparent))}
+.layer:focus{outline:none}
+.layer:focus-visible .rim{stroke:#fff;stroke-width:2}
+.layer text{font-family:var(--display);font-weight:700;fill:#fff;pointer-events:none}
+.funnel-hint{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+
+.panel{background:color-mix(in srgb,var(--surface) 85%,transparent);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0;backdrop-filter:blur(6px)}
+.panel-top{display:flex;align-items:center;gap:14px}
+.icon{flex:none;width:52px;height:52px;border-radius:50%;border:2px solid var(--magenta);display:grid;place-items:center;box-shadow:0 0 20px color-mix(in srgb,var(--magenta) 45%,transparent)}
+.icon svg{width:24px;height:24px;stroke:var(--fg);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.panel h2{font-size:clamp(24px,3vw,30px);font-weight:800}
+.panel .lead{font-size:17px;color:var(--fg)}
+.panel ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.panel li{display:grid;grid-template-columns:18px 1fr;gap:10px;color:var(--muted)}
+.panel li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--magenta);margin-top:9px;box-shadow:0 0 8px var(--magenta)}
+.metric{display:flex;align-items:baseline;gap:12px;padding-top:16px;border-top:1px solid var(--line)}
+.metric b{font-family:var(--display);font-size:34px;font-weight:800;color:var(--magenta);font-variant-numeric:tabular-nums}
+.metric span{color:var(--muted);font-size:14px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.steps{display:flex;gap:6px}
+.dot{width:34px;height:6px;border-radius:3px;border:0;background:var(--line);cursor:pointer;padding:0}
+.dot.on{background:linear-gradient(90deg,var(--magenta),var(--violet))}
+.btn{font:500 14px var(--body);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.btn:hover{border-color:var(--magenta)}
+.btn.primary{background:linear-gradient(90deg,var(--magenta),var(--violet));border-color:transparent;font-weight:700}
+.panel-body{display:flex;flex-direction:column;gap:18px;transition:opacity .25s}
+.panel-body.fade{opacity:0}
+
+/* Sections */
+.section{display:flex;flex-direction:column;gap:28px}
+.section-head{display:flex;flex-direction:column;gap:10px;max-width:68ch}
+.section-head h2{font-size:clamp(26px,3.6vw,38px);font-weight:700}
+.section-head p{color:var(--muted)}
+
+/* Qualification checker */
+.checker{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:stretch}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.check{position:relative;display:flex;flex-direction:column;gap:8px;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer;transition:border-color .25s,background .25s}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.check .row{display:flex;gap:12px;align-items:center}
+.box{flex:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;transition:all .2s}
+.box svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none;opacity:0;transition:opacity .2s}
+.check strong{font-family:var(--display);font-size:18px}
+.check p{color:var(--muted);font-size:14px}
+.check:has(input:checked){border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 9%,var(--surface))}
+.check:has(input:checked) .box{background:var(--magenta);border-color:var(--magenta)}
+.check:has(input:checked) .box svg{opacity:1}
+.check:has(input:focus-visible){outline:2px solid var(--magenta-soft);outline-offset:3px}
+.verdict{border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;justify-content:center;border:1px solid var(--line);background:var(--surface-2);transition:border-color .3s,box-shadow .3s}
+.verdict .state{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.verdict h3{font-size:24px}
+.verdict p{color:var(--muted)}
+.verdict.pass{border-color:var(--ok);box-shadow:0 0 30px color-mix(in srgb,var(--ok) 25%,transparent)}
+.verdict.pass .state{color:var(--ok)}
+.verdict.fail .state{color:var(--warn)}
+.meter{display:flex;gap:6px}
+.meter i{flex:1;height:6px;border-radius:3px;background:var(--line);transition:background .3s}
+.meter i.on{background:var(--magenta)}
+.verdict.pass .meter i{background:var(--ok)}
+
+/* Brief card */
+.brief{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;align-items:center}
+.brief-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.brief-card header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 22px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.brief-card header span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--magenta-soft);border:1px solid color-mix(in srgb,var(--magenta) 50%,transparent);border-radius:999px;padding:3px 10px}
+.brief-card dl{margin:0;padding:6px 22px 18px}
+.brief-card .item{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.brief-card .item:last-child{border-bottom:0}
+.brief-card dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--magenta-soft);padding-top:3px}
+.brief-card dd{margin:0;color:var(--fg)}
+.brief-card dl{transition:opacity .2s}
+.brief-card dl.fade{opacity:0}
+.niches{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.niche{font:500 14px var(--body);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.niche:hover{color:var(--fg);border-color:var(--magenta)}
+.niche.on{color:var(--fg);border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 16%,transparent)}
+
+/* Who does what */
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.role{padding:24px;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:14px}
+.role.us{border-color:color-mix(in srgb,var(--magenta) 55%,var(--line))}
+.role h3{font-size:20px}
+.role .who{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.role ul{margin:0;padding-left:18px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.role li::marker{color:var(--magenta)}
+
+/* Numbers */
+.numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.num{padding:26px;border-radius:16px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.num b{font-family:var(--display);font-weight:800;font-size:clamp(40px,5vw,56px);line-height:1;font-variant-numeric:tabular-nums;background:linear-gradient(90deg,var(--magenta),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.num span{color:var(--muted)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--magenta),var(--violet));border-radius:4px}
+.footnote{font-size:13px;color:var(--muted)}
+
+.close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;padding:48px 24px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--magenta) 16%,var(--surface)),color-mix(in srgb,var(--violet) 18%,var(--surface)))}
+.close h2{font-size:clamp(26px,4vw,40px);font-weight:300}
+.close p{color:var(--muted);max-width:56ch}
+
+@media (max-width:860px){
+  .stage,.checker,.brief{grid-template-columns:minmax(0,1fr)}
+  .roles,.numbers{grid-template-columns:minmax(0,1fr)}
+  main{gap:72px;padding-block:32px 56px}
+}
+@media (max-width:520px){
+  .checks{grid-template-columns:minmax(0,1fr)}
+  .panel{padding:22px}
+  .brief-card .item{grid-template-columns:minmax(0,1fr);gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+
+<main>
+  <header class="hero">
+    <span class="eyebrow">LinkedIn-led B2B appointment setting</span>
+    <h1>Outreach <span class="accent">Intelligence</span> System</h1>
+    <p class="tagline">Outreach that ends on your calendar.</p>
+    <p class="pitch">We research your ideal buyers, reach out to them on LinkedIn, qualify their interest, authority and fit, and book meetings on your calendar. Your team takes the conversations and closes the deals.</p>
+  </header>
+
+  <section class="film" aria-label="The system in ten seconds">
+    <div class="film-frame">
+      <video id="film" src="media/outreach-funnel.mp4" poster="media/outreach-funnel-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Animation of 2,400 prospects flowing through the funnel to about 15 qualified meetings"></video>
+      <div class="film-ctl">
+        <button class="btn" id="filmPlay" type="button">Pause</button>
+        <button class="btn" id="filmSound" type="button">Sound on</button>
+      </div>
+    </div>
+    <p class="film-cap">From about 2,400 prospects to about 15 qualified meetings in a typical month.</p>
+  </section>
+
+  <section class="stage" aria-label="How the funnel works">
+    <div>
+      <div class="funnel-wrap">
+        <svg viewBox="0 0 400 400" role="group" aria-label="Funnel stages. Select a stage to see details.">
+          <defs>
+            <linearGradient id="g0" x1="0" x2="1"><stop offset="0" stop-color="#d81ee0"/><stop offset=".5" stop-color="#ff3fd2"/><stop offset="1" stop-color="#a520f0"/></linearGradient>
+            <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#9a1fe6"/><stop offset=".5" stop-color="#d42ef0"/><stop offset="1" stop-color="#6d24e8"/></linearGradient>
+            <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#7a25ea"/><stop offset=".5" stop-color="#9b3cf5"/><stop offset="1" stop-color="#4f25d8"/></linearGradient>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="#5a27e0"/><stop offset=".5" stop-color="#7d44f2"/><stop offset="1" stop-color="#3a22b8"/></linearGradient>
+            <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+          </defs>
+          <g id="layers"></g>
+        </svg>
+        <canvas id="flow" aria-hidden="true"></canvas>
+      </div>
+      <p class="funnel-hint">Tap a layer of the funnel to explore it.</p>
+    </div>
+
+    <article class="panel" aria-live="polite">
+      <div class="panel-body" id="panelBody">
+        <div class="panel-top">
+          <div class="icon" id="pIcon"></div>
+          <div>
+            <span class="eyebrow" id="pStep">Stage 1 of 4</span>
+            <h2 id="pTitle">Targeted Outreach</h2>
+          </div>
+        </div>
+        <p class="lead" id="pLead"></p>
+        <ul id="pList"></ul>
+        <div class="metric"><b id="pMetric"></b><span id="pMetricLabel"></span></div>
+      </div>
+      <div class="controls">
+        <button class="btn primary" id="play" type="button">▶ Play the flow</button>
+        <button class="btn" id="next" type="button">Next stage →</button>
+        <div class="steps" id="dots" role="tablist" aria-label="Stages"></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="section" aria-labelledby="qTitle">
+    <div class="section-head">
+      <span class="eyebrow">What “qualified” means</span>
+      <h2 id="qTitle">A lead reaches your calendar only when all four checks pass</h2>
+      <p>Try it. Switch the checks on and off to see when a prospect becomes a booked meeting.</p>
+    </div>
+    <div class="checker">
+      <div class="checks" id="checks">
+        <label class="check"><input type="checkbox" id="c-interest" checked><span class="row"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><strong>Interest</strong></span><p>They replied positively and asked to take it further.</p></label>
+        <label class="check"><input type="checkbox" id="c-authority" checked><span class="row"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><strong>Authority to buy</strong></span><p>Their role and decision-making experience are confirmed in research and in conversation.</p></label>
+        <label class="check"><input type="checkbox" id="c-capacity"><span class="row"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><strong>Capacity to proceed</strong></span><p>The company’s size, stage and sector fit your target, so the deal can realistically go ahead.</p></label>
+        <label class="check"><input type="checkbox" id="c-agreement"><span class="row"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><strong>Agreement</strong></span><p>They agreed to speak with you on a channel they chose.</p></label>
+      </div>
+      <div class="verdict fail" id="verdict">
+        <span class="state" id="vState">Not qualified yet</span>
+        <h3 id="vTitle">2 of 4 checks passed</h3>
+        <p id="vText">Still missing: capacity to proceed, agreement. We keep the conversation going, or we let it go.</p>
+        <div class="meter" id="meter"><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bTitle">
+    <div class="brief">
+      <div class="section-head">
+        <span class="eyebrow">What lands on your calendar</span>
+        <h2 id="bTitle">Every meeting comes with a short brief</h2>
+        <p>Your sales executive walks in knowing who they are meeting and what to ask. Tap the notification on the phone to open a sample brief.</p>
+        <div class="niches" id="niches" role="tablist" aria-label="Example industry">
+          <button type="button" class="niche on" data-k="software" role="tab" aria-selected="true">Custom software</button>
+          <button type="button" class="niche" data-k="saas" role="tab" aria-selected="false">B2B SaaS</button>
+          <button type="button" class="niche" data-k="marketing" role="tab" aria-selected="false">Marketing agency</button>
+        </div>
+      </div>
+      <div class="phone-stage">
+        <div class="phone" id="phone">
+          <div class="screen">
+            <div class="status" aria-hidden="true"><span>9:41</span><span class="notch"></span><span class="sig">5G ▮</span></div>
+            <div class="lock" id="lock">
+              <div class="lock-date" id="lDate">Tuesday, 20 October</div>
+              <div class="lock-time">9:41</div>
+              <button class="notif" id="notif" type="button" aria-label="Open the meeting brief">
+                <img src="data:image/png;base64,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" alt="" class="app-ic">
+                <span class="n-body">
+                  <span class="n-top"><b>Tara Applications</b><small>now</small></span>
+                  <strong>New meeting booked</strong>
+                  <span id="nText">Head of Operations, Retail · Wed 21 Oct, 11:00 AM</span>
+                </span>
+              </button>
+              <div class="notif ghost" aria-hidden="true">
+                <img src="data:image/png;base64,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" alt="" class="app-ic">
+                <span class="n-body"><span class="n-top"><b>Tara Applications</b><small>2m ago</small></span><span>Brief ready for your sales executive</span></span>
+              </div>
+              <div class="tap-hint" aria-hidden="true"><span class="ring"></span>Tap the notification</div>
+            </div>
+            <div class="app" id="app" hidden>
+              <div class="app-bar"><button type="button" class="back" id="back" aria-label="Back to lock screen">‹ Meetings</button><span class="tag">Example</span></div>
+              <div class="app-scroll">
+                <div class="m-head">
+                  <div class="cal-tile" aria-hidden="true"><span id="iMon">OCT</span><b id="iDay">21</b></div>
+                  <div class="m-title"><h3 id="iTitle"></h3><p id="iWhen"></p></div>
+                </div>
+                <span class="chan" id="iChan"></span>
+                <div class="person"><i class="av" id="iAv"></i><span><b id="iRole"></b><small id="iCo"></small></span></div>
+                <div class="blk"><span class="lbl">Who</span><p id="iWho"></p></div>
+                <div class="blk"><span class="lbl">What to ask</span><ol class="asks" id="iAsk"></ol></div>
+                <div class="ok"><svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5"/></svg>Interest, authority, capacity and agreement confirmed</div>
+              </div>
+              <div class="app-cta" id="iCta">Join Google Meet</div>
+            </div>
+            <div class="home-bar" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" aria-labelledby="nTitle">
+    <div class="section-head">
+      <span class="eyebrow">A typical month</span>
+      <h2 id="nTitle">What the numbers usually look like</h2>
+    </div>
+    <div class="numbers">
+      <div class="num"><b>~2,400</b><span>prospects researched and contacted</span><div class="bar"><i style="width:100%"></i></div></div>
+      <div class="num"><b>240</b><span>conversations with prospects who replied</span><div class="bar"><i style="width:10%"></i></div></div>
+      <div class="num"><b>~15</b><span>qualified meetings on your calendar</span><div class="bar"><i style="width:2%"></i></div></div>
+    </div>
+    <p class="footnote">Typical figures, not a guarantee. Results depend on your market, offer and target profile.</p>
+  </section>
+
+  <section class="section" aria-labelledby="dTitle">
+    <div class="section-head">
+      <span class="eyebrow">Your client dashboard</span>
+      <h2 id="dTitle">Every meeting, brief and number in one place</h2>
+      <p>You get a private workspace that shows monthly activity, your confirmed meetings and a full brief for each one. Try it below: open a meeting, search, filter and switch tabs.</p>
+    </div>
+    <div class="dash-feats">
+      <div class="dash-feat"><strong>Overview</strong><span>Prospects researched, interested prospects and meetings booked this month.</span></div>
+      <div class="dash-feat"><strong>Confirmed meetings</strong><span>A searchable list of upcoming, completed and cancelled meetings, filtered by industry, location and format.</span></div>
+      <div class="dash-feat"><strong>Meeting handoff</strong><span>Contact details, the meeting brief, business context and three talking points for your sales executive.</span></div>
+    </div>
+    <div class="dash-frame" id="dashFrame">
+      <div class="dash-bar">
+        <div class="dash-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="dash-url">Client Growth Workspace · sample data</span>
+        <button class="btn" id="dashFull" type="button">Expand</button>
+      </div>
+      <iframe src="dashboard.html" title="Sample client dashboard" loading="lazy"></iframe>
+    </div>
+    <p class="footnote">Sample dashboard. All names, companies, contacts and figures are fictional.</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  // Dashboard expand
+  const df=document.getElementById('dashFrame'),dfb=document.getElementById('dashFull');
+  const setFull=on=>{df.classList.toggle('full',on);dfb.textContent=on?'Close':'Expand';document.documentElement.style.overflow=on?'hidden':''};
+  dfb.onclick=()=>setFull(!df.classList.contains('full'));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&df.classList.contains('full'))setFull(false)});
+  // Film controls
+  const film=document.getElementById('film'),fp=document.getElementById('filmPlay'),fs=document.getElementById('filmSound');
+  const syncFilm=()=>{fp.textContent=film.paused?'Play':'Pause';fs.textContent=film.muted?'Sound on':'Sound off'};
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){film.removeAttribute('autoplay');film.pause()}
+  fp.onclick=()=>{film.paused?film.play().catch(()=>{}):film.pause()};
+  fs.onclick=()=>{film.muted=!film.muted;if(!film.muted&&film.paused)film.play().catch(()=>{});syncFilm()};
+  ['play','pause','volumechange'].forEach(ev=>film.addEventListener(ev,syncFilm));syncFilm();
+  const icons={
+    people:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19c.8-3.4 3.4-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="5" cy="10" r="2"/><circle cx="19" cy="10" r="2"/></svg>',
+    chat:'<svg viewBox="0 0 24 24"><path d="M4 12a8 7 0 1 1 3.5 5.8L4 19l1.2-3.2A6.7 6.7 0 0 1 4 12z"/><circle cx="9" cy="12" r=".6"/><circle cx="12" cy="12" r=".6"/><circle cx="15" cy="12" r=".6"/></svg>',
+    clip:'<svg viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5h6v2.5H9z"/><path d="M8.8 13.2l2.2 2.2 4.4-4.6"/></svg>',
+    cal:'<svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><path d="M8 13.5h.01M12 13.5h.01M16 13.5h.01M8 17h.01M12 17h.01"/></svg>'
+  };
+  const stages=[
+    {name:'Targeted Outreach',lines:['Targeted Outreach'],icon:'people',grad:'g0',
+     lead:'We research your ideal accounts and decision-makers, then reach out to each one personally on LinkedIn.',
+     list:['You define the buyer: sector, company size, region and the titles that decide','A sample shortlist checks the fit before we start','We study each company and person: role, decision experience, size, stage and fit','Personal messages on LinkedIn, never mass blasts'],
+     metric:'~2,400',metricLabel:'prospects researched and contacted in a typical month',
+     y0:14,y1:94,top:360,bot:300},
+    {name:'Meaningful Conversation',lines:['Meaningful','Conversation'],icon:'chat',grad:'g1',
+     lead:'We follow up persistently and turn replies into real two-way conversations about your service.',
+     list:['Follow-ups are timed and personal','Replies become real conversations, not canned answers','We move to the channel the prospect prefers: WhatsApp, email or a call'],
+     metric:'~240',metricLabel:'conversations in a typical month',
+     y0:104,y1:184,top:288,bot:232},
+    {name:'Qualified Leads',lines:['Qualified Leads'],icon:'clip',grad:'g2',
+     lead:'Decision-makers who showed interest in your service, have the authority to buy, and agreed to speak with you.',
+     list:['Interest: they asked to take it further','Authority to buy: role confirmed in research and conversation','Capacity to proceed: the company fits your target','Agreement: they said yes to a meeting'],
+     metric:'4 / 4',metricLabel:'checks every lead must pass. Try them below.',
+     y0:194,y1:274,top:220,bot:168},
+    {name:'Booked Meetings',lines:['Booked','Meetings'],icon:'cal',grad:'g3',
+     lead:'The meeting goes on your calendar with a short brief, and your team takes it from there.',
+     list:['Held on the channel the prospect chose: Google Meet, a call and so on','The brief covers who they are, what they said and what to ask','Your team runs the conversation and the close'],
+     metric:'~15',metricLabel:'qualified meetings in a typical month',
+     y0:284,y1:376,top:156,bot:112}
+  ];
+
+
+  // Build funnel layers
+  const NS='http://www.w3.org/2000/svg', cx=200;
+  const g=document.getElementById('layers');
+  stages.forEach((s,i)=>{
+    const L=document.createElementNS(NS,'g');
+    L.setAttribute('class','layer');L.setAttribute('tabindex','0');L.setAttribute('role','button');
+    L.setAttribute('aria-label',s.name);L.dataset.i=i;
+    const ht=s.top/2,hb=s.bot/2,ry=10;
+    const body=`M${cx-ht},${s.y0} L${cx-hb},${s.y1} A${hb},${ry*hb/ht} 0 0 0 ${cx+hb},${s.y1} L${cx+ht},${s.y0} Z`;
+    L.innerHTML=
+      `<path class="body" d="${body}" fill="url(#${s.grad})"/>`+
+      `<path d="${body}" fill="url(#shade)"/>`+
+      `<ellipse class="rim" cx="${cx}" cy="${s.y0}" rx="${ht}" ry="${ry}" fill="${i===0?'#ff6be0':'#3a1a66'}" fill-opacity="${i===0?.55:.6}" stroke="#ff9ae8" stroke-opacity=".5" stroke-width="1"/>`;
+    const fs=i===3?17:18, mid=(s.y0+s.y1)/2+6;
+    s.lines.forEach((t,k)=>{
+      const tx=document.createElementNS(NS,'text');
+      tx.setAttribute('x',cx);tx.setAttribute('text-anchor','middle');tx.setAttribute('font-size',fs);
+      tx.setAttribute('y',mid+(k-(s.lines.length-1)/2)*(fs+3));tx.textContent=t;L.appendChild(tx);
+    });
+    g.appendChild(L);
+  });
+  const layerEls=[...g.querySelectorAll('.layer')];
+
+  // Panel
+  const dotsWrap=document.getElementById('dots');
+  stages.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-label',s.name);b.onclick=()=>{stopPlay();select(i)};dotsWrap.appendChild(b)});
+  const dots=[...dotsWrap.children];
+  const pb=document.getElementById('panelBody');
+  let current=-1;
+  function fill(i){
+    const s=stages[i];
+    document.getElementById('pIcon').innerHTML=icons[s.icon];
+    document.getElementById('pStep').textContent=`Stage ${i+1} of 4`;
+    document.getElementById('pTitle').textContent=s.name;
+    document.getElementById('pLead').textContent=s.lead;
+    document.getElementById('pList').innerHTML=s.list.map(x=>`<li>${x}</li>`).join('');
+    document.getElementById('pMetric').textContent=s.metric;
+    document.getElementById('pMetricLabel').textContent=s.metricLabel;
+  }
+  function select(i){
+    if(i===current)return;
+    layerEls.forEach((el,k)=>{el.classList.toggle('active',k===i);el.setAttribute('aria-pressed',k===i)});
+    dots.forEach((d,k)=>{d.classList.toggle('on',k<=i);d.setAttribute('aria-selected',k===i)});
+    if(current<0){fill(i)}else{pb.classList.add('fade');setTimeout(()=>{fill(i);pb.classList.remove('fade')},200)}
+    current=i;
+  }
+  layerEls.forEach((el,i)=>{
+    el.addEventListener('click',()=>{stopPlay();select(i)});
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();stopPlay();select(i)}});
+  });
+  document.getElementById('next').onclick=()=>{stopPlay();select((current+1)%4)};
+  let timer=null;const playBtn=document.getElementById('play');
+  function stopPlay(){if(timer){clearInterval(timer);timer=null;playBtn.textContent='▶ Play the flow'}}
+  playBtn.onclick=()=>{
+    if(timer){stopPlay();return}
+    select(0);playBtn.textContent='❚❚ Pause';
+    timer=setInterval(()=>{if(current>=3){stopPlay();return}select(current+1)},3200);
+  };
+  select(0);
+
+  // Qualification checker
+  const ids=['interest','authority','capacity','agreement'],names=['interest','authority to buy','capacity to proceed','agreement'];
+  const verdict=document.getElementById('verdict'),meter=[...document.querySelectorAll('#meter i')];
+  function check(){
+    const on=ids.map(id=>document.getElementById('c-'+id).checked);
+    const n=on.filter(Boolean).length;
+    meter.forEach((m,k)=>m.classList.toggle('on',k<n));
+    const pass=n===4;
+    verdict.className='verdict '+(pass?'pass':'fail');
+    document.getElementById('vState').textContent=pass?'Qualified':'Not qualified yet';
+    document.getElementById('vTitle').textContent=pass?'Meeting goes on your calendar':`${n} of 4 checks passed`;
+    const missing=names.filter((_,k)=>!on[k]);
+    document.getElementById('vText').textContent=pass
+      ?'All four checks passed. We book the meeting on the channel they chose and send you the brief.'
+      :`Still missing: ${missing.join(', ')}. We keep the conversation going, or we let it go. It does not reach your calendar.`;
+  }
+  ids.forEach(id=>document.getElementById('c-'+id).addEventListener('change',check));check();
+
+  // Phone mockup: notification opens the meeting brief
+  const chanIcon={meet:'<svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/></svg>',phone:'<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>'};
+  const briefs={
+    software:{note:'Head of Operations, Retail · Wed 21 Oct, 11:00 AM',lock:'Tuesday, 20 October',title:'Discovery call · Custom software',mon:'OCT',day:'21',when:'Wed · 11:00–11:30 AM',chan:'meet',chanText:'Google Meet · 30 min',cta:'Join Google Meet',av:'HO',role:'Head of Operations',co:'Regional retail chain, 200 staff',
+      who:'Owns the budget for internal tools at a 200-person regional retail chain.',
+      said:'Inventory and orders still run on spreadsheets and an old ERP plug-in. Our last vendor missed deadlines, so we need a partner with a clear delivery plan.',
+      ask:['Which systems must the new app connect to?','Who signs off on the build?','Would a fixed-scope first phase before peak season work?']},
+    saas:{note:'VP of Sales, Distribution · Thu 22 Oct, 3:00 PM',lock:'Wednesday, 21 October',title:'Intro call · B2B SaaS',mon:'OCT',day:'22',when:'Thu · 3:00–3:20 PM',chan:'phone',chanText:'Phone call · 20 min',cta:'Call prospect',av:'VS',role:'VP of Sales',co:'Industrial distributor, 90 staff',
+      who:'Chooses the sales tools for a team of 25 reps at a 90-person industrial distributor.',
+      said:'Reps lose hours logging calls by hand and pipeline reports arrive a week late. Our current tool is up for renewal in February.',
+      ask:['How much time does logging cost the team each week?','Who else joins the decision?','Would they trial with one team first?']},
+    marketing:{note:'Founder, Skincare brand · Fri 23 Oct, 12:00 PM',lock:'Thursday, 22 October',title:'Strategy call · Marketing agency',mon:'OCT',day:'23',when:'Fri · 12:00–12:30 PM',chan:'meet',chanText:'Google Meet · 30 min',cta:'Join Google Meet',av:'FD',role:'Founder',co:'D2C skincare brand, 40 staff',
+      who:'Picks agencies personally for a 40-person direct-to-consumer skincare brand.',
+      said:'Paid ads stopped scaling over the last two quarters and the in-house team is stretched. We have a product launch planned for spring.',
+      ask:['Which channels are working now?','What would a successful launch look like?','What monthly budget range do they have in mind?']}
+  };
+  const $=id=>document.getElementById(id);
+  const nb=[...document.querySelectorAll('.niche')],app=$('app'),lock=$('lock'),notif=$('notif');
+  function openApp(){lock.hidden=true;app.hidden=false;app.style.animation='none';void app.offsetWidth;app.style.animation='';$('back').focus({preventScroll:true})}
+  function closeApp(){app.hidden=true;lock.hidden=false;notif.style.animation='none';void notif.offsetWidth;notif.style.animation='';notif.focus({preventScroll:true})}
+  notif.addEventListener('click',openApp);$('back').addEventListener('click',closeApp);
+  function showBrief(k,anim){
+    const b=briefs[k];
+    $('nText').textContent=b.note;$('lDate').textContent=b.lock;
+    $('iTitle').textContent=b.title;$('iMon').textContent=b.mon;$('iDay').textContent=b.day;$('iWhen').textContent=b.when;
+    $('iChan').innerHTML=chanIcon[b.chan]+b.chanText;$('iCta').textContent=b.cta;$('iAv').textContent=b.av;$('iRole').textContent=b.role;$('iCo').textContent=b.co;
+    $('iWho').textContent=b.who;
+    $('iAsk').innerHTML=b.ask.map(a=>`<li>${a}</li>`).join('');
+    nb.forEach(x=>{const on=x.dataset.k===k;x.classList.toggle('on',on);x.setAttribute('aria-selected',on)});
+    if(anim){app.hidden=true;lock.hidden=false;notif.style.animation='none';void notif.offsetWidth;notif.style.animation=''}
+  }
+  nb.forEach(x=>x.addEventListener('click',()=>showBrief(x.dataset.k,true)));
+  showBrief('software',false);
+
+  // Particle flow through the funnel
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv=document.getElementById('flow'),ctx=cv.getContext('2d');
+  function size(){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx.setTransform(cv.width/400,0,0,cv.height/400,0,0)}
+  size();if('ResizeObserver' in window)new ResizeObserver(size).observe(cv);
+  if(reduce)return;
+  function halfAt(y){
+    for(const s of stages){if(y>=s.y0&&y<=s.y1){const t=(y-s.y0)/(s.y1-s.y0);return (s.top+(s.bot-s.top)*t)/2}}
+    for(let k=0;k<3;k++){const a=stages[k],b=stages[k+1];if(y>a.y1&&y<b.y0){const t=(y-a.y1)/(b.y0-a.y1);return (a.bot+(b.top-a.bot)*t)/2}}
+    return 50;
+  }
+  const gates=[99,189,279],keep=[.45,.55,.6];
+  let ps=[],last=performance.now(),acc=0;
+  function spawn(){const h=170*Math.random()*(Math.random()<.5?-1:1);ps.push({x:cx+h*.95,y:-4,vy:28+Math.random()*22,g:0,out:0,a:1,r:1.4+Math.random()*1.4})}
+  function frame(now){
+    const dt=Math.min(.05,(now-last)/1000);last=now;acc+=dt;
+    while(acc>.09){acc-=.09;if(ps.length<90)spawn()}
+    ctx.clearRect(0,0,400,400);
+    for(const p of ps){
+      if(p.out){p.x+=p.out*dt*70;p.y+=p.vy*dt*.4;p.a-=dt*1.4;}
+      else{
+        p.y+=p.vy*dt;
+        if(p.g<3&&p.y>gates[p.g]){if(Math.random()>keep[p.g]){p.out=p.x<cx?-1:1}p.g++}
+        const lim=halfAt(p.y)*.8;if(Math.abs(p.x-cx)>lim)p.x+=((cx+Math.sign(p.x-cx)*lim)-p.x)*.15;
+        if(p.y>372){p.a-=dt*3;p.r+=dt*6}
+      }
+      const sel=current>=0?stages[current]:null,inSel=sel&&p.y>=sel.y0-6&&p.y<=sel.y1+4&&!p.out;
+      ctx.globalAlpha=Math.max(0,p.a)*(inSel?1:.7);
+      ctx.fillStyle=p.out?'#ffb3ef':(p.y>372?'#ffffff':'#ffe6f8');
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*(inSel?1.25:1),0,6.283);ctx.fill();
+    }
+    ctx.globalAlpha=1;ps=ps.filter(p=>p.a>0&&p.y<400);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>

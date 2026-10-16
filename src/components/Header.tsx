@@ -31,7 +31,7 @@ const navItems = [
   { label: "Portfolio", href: "/portfolio" },
   { label: "Team", href: "/team" },
   { label: "About", href: "/about" },
-  { label: "Authors Preview", href: "/authors-preview" },
+  { label: "Outreach Intelligence System", href: "/outreach-intelligence-system" },
 ];
 
 export default function Header() {
@@ -39,7 +39,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
-  const isLightRoute = pathname === "/intelligence-sample" || pathname === "/authors-preview" || pathname.startsWith("/admin-panel");
+  const isLightRoute = pathname === "/intelligence-sample" || pathname.startsWith("/admin-panel");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
