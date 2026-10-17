@@ -4,7 +4,6 @@ import About from "@/components/About";
 import DevServices from "@/components/DevServices";
 import Testimonials from "@/components/Testimonials";
 import LeadGenServices from "@/components/LeadGenServices";
-import LeadGenFunnel from "@/components/LeadGenFunnel";
 import LeadGenProcess from "@/components/LeadGenProcess";
 import Partners from "@/components/Partners";
 import Portfolio from "@/components/Portfolio";
@@ -20,7 +19,6 @@ export default function Home() {
       <Stats />
       <About />
       <Testimonials />
-      <LeadGenFunnel />
       <LeadGenServices />
       <DevServices />
       <LeadGenProcess />
