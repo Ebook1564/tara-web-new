@@ -10,7 +10,7 @@ const footerLinks = {
     { label: "Game Development", href: "/services/game-development" },
     { label: "Email Marketing", href: "/services/email-marketing" },
     // { label: "B2B Lead Generation", href: "/lead-generation" },
-    { label: "App Store Optimization", href: "/services/aso" },
+    { label: "Outreach Intelligence System", href: "/outreach-intelligence-system" },
   ],
   Company: [
     { label: "About Us", href: "/about" },
@@ -40,8 +40,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-muted leading-relaxed max-w-sm">
-              Full-stack development & digital solutions agency. We build web, mobile, and game platforms
-              that drive real business growth for 1200+ clients worldwide.
+              Full-stack development and B2B growth partner for clients worldwide. We build web, mobile and game platforms, and book qualified meetings with decision-makers through our Outreach Intelligence System.
             </p>
 
             <div className="space-y-3">
