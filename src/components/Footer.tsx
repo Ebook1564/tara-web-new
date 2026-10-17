@@ -9,8 +9,8 @@ const footerLinks = {
     { label: "App Development", href: "/services/app-development" },
     { label: "Game Development", href: "/services/game-development" },
     { label: "Email Marketing", href: "/services/email-marketing" },
-    { label: "B2B Lead Generation", href: "/lead-generation" },
-    { label: "App Store Optimization", href: "/services/aso" }, 
+    // { label: "B2B Lead Generation", href: "/lead-generation" },
+    { label: "App Store Optimization", href: "/services/aso" },
   ],
   Company: [
     { label: "About Us", href: "/about" },
