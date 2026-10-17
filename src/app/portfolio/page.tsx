@@ -1,7 +1,5 @@
 import Portfolio from "@/components/Portfolio";
 import PageHero from "@/components/PageHero";
-import LeadGenPortfolio from "@/components/LeadGenPortfolio";
-import LeadGenFunnel from "@/components/LeadGenFunnel";
 import LeadGenServices from "@/components/LeadGenServices";
 
 export default function PortfolioPage() {
@@ -13,8 +11,7 @@ export default function PortfolioPage() {
         badgeText="PORTFOLIO"
       />
       <Portfolio hideViewAll={true} />
-        <LeadGenFunnel />
-        <LeadGenServices />
+      <LeadGenServices />
     </>
   );
 }
