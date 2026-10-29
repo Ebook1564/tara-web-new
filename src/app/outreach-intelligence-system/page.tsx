@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { Send, RotateCcw, Sparkles } from "lucide-react";
 import "./outreach.css";
 
 interface Stage {
@@ -191,6 +193,7 @@ export default function OutreachIntelligenceSystemPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isVideoCompleted, setIsVideoCompleted] = useState(false);
 
   // Qualification Checker State
   const [checks, setChecks] = useState({
@@ -242,13 +245,30 @@ export default function OutreachIntelligenceSystemPage() {
   // Video Play/Pause & Sound Handlers
   const togglePlayFilm = () => {
     if (!videoRef.current) return;
-    if (videoRef.current.paused) {
+    if (videoRef.current.paused || videoRef.current.ended) {
+      if (videoRef.current.ended || isVideoCompleted) {
+        videoRef.current.currentTime = 0;
+        setIsVideoCompleted(false);
+      }
       videoRef.current.play().catch(() => {});
       setIsPaused(false);
     } else {
       videoRef.current.pause();
       setIsPaused(true);
     }
+  };
+
+  const handleReplayFilm = () => {
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = 0;
+    setIsVideoCompleted(false);
+    setIsPaused(false);
+    videoRef.current.play().catch(() => {});
+  };
+
+  const handleFilmEnded = () => {
+    setIsVideoCompleted(true);
+    setIsPaused(true);
   };
 
   const toggleSoundFilm = () => {
@@ -440,18 +460,67 @@ export default function OutreachIntelligenceSystemPage() {
             <video
               ref={videoRef}
               id="film"
-              src="/media/outreach-funnel.mp4"
-              poster="/media/outreach-funnel-poster.jpg"
+              src="/media/Tara_OIS_Website.mp4"
+              poster="/media/Tara_OIS_Website-poster.jpg"
               autoPlay
               muted
-              loop
               playsInline
               preload="auto"
-              aria-label="Animation of 2,400 prospects flowing through the funnel to about 15 qualified meetings"
+              onEnded={handleFilmEnded}
+              onPlay={() => {
+                setIsPaused(false);
+                setIsVideoCompleted(false);
+              }}
+              onPause={() => setIsPaused(true)}
+              aria-label="Tara Applications Outreach Intelligence System video presentation"
             />
+
+            {/* Video Completed CTA Overlay */}
+            {isVideoCompleted && (
+              <div className="film-end-overlay" role="dialog" aria-label="Presentation completed">
+                <div className="film-end-card">
+                  <span className="film-end-badge">
+                    <Sparkles size={13} />
+                    Presentation Complete
+                  </span>
+                  <h3>Want to see it for your market?</h3>
+                  <p>
+                    Tell us your industry and target region. We&apos;ll prepare a free sample shortlist of the decision-makers we&apos;d reach for you.
+                  </p>
+                  <div className="film-end-actions">
+                    <Link
+                      href="/contact"
+                      className="btn primary film-end-cta"
+                    >
+                      <Send size={15} />
+                      Fill Contact Form
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn film-end-replay"
+                      onClick={handleReplayFilm}
+                    >
+                      <RotateCcw size={14} />
+                      Replay Video
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="film-ctl">
+              {isVideoCompleted && (
+                <Link
+                  href="/contact"
+                  className="btn primary"
+                  style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+                >
+                  <Send size={13} />
+                  Fill Contact Form
+                </Link>
+              )}
               <button className="btn" id="filmPlay" type="button" onClick={togglePlayFilm}>
-                {isPaused ? "Play" : "Pause"}
+                {isVideoCompleted ? "Replay" : isPaused ? "Play" : "Pause"}
               </button>
               <button className="btn" id="filmSound" type="button" onClick={toggleSoundFilm}>
                 {isMuted ? "Sound on" : "Sound off"}
@@ -1006,6 +1075,25 @@ export default function OutreachIntelligenceSystemPage() {
             <iframe src="/dashboard.html" title="Sample client dashboard" loading="lazy" />
           </div>
           <p className="footnote">Sample dashboard. All names, companies, contacts and figures are fictional.</p>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="section" style={{ textAlign: "center" }}>
+          <div className="panel" style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+            <span className="eyebrow">Start Your Campaign</span>
+            <h2 style={{ fontSize: "clamp(26px, 4vw, 36px)" }}>Ready to turn outreach into qualified meetings?</h2>
+            <p style={{ color: "var(--muted)", maxWidth: "54ch", margin: "0 auto" }}>
+              Request a free sample shortlist for your ideal client profile. We&apos;ll identify real decision-makers in your target market.
+            </p>
+            <Link
+              href="/contact"
+              className="btn primary"
+              style={{ padding: "12px 28px", fontSize: "16px", marginTop: "8px" }}
+            >
+              <Send size={16} />
+              Fill Contact Form
+            </Link>
+          </div>
         </section>
       </main>
     </div>

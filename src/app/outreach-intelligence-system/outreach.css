@@ -118,7 +118,7 @@
   position: relative;
   width: 100%;
   max-width: 980px;
-  aspect-ratio: 1344/768;
+  aspect-ratio: 16 / 9;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1144,5 +1144,114 @@
   }
   .outreach-container .ring {
     animation: none;
+  }
+}
+
+/* Film End Overlay */
+.outreach-container .film-end-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at center, rgba(20, 10, 28, 0.92), rgba(7, 4, 10, 0.97));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: filmOverlayFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes filmOverlayFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.outreach-container .film-end-card {
+  max-width: 540px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.outreach-container .film-end-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--magenta-soft);
+  background: color-mix(in srgb, var(--magenta) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--magenta) 40%, transparent);
+  border-radius: 999px;
+  padding: 5px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.outreach-container .film-end-card h3 {
+  font-family: var(--display);
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.outreach-container .film-end-card p {
+  color: var(--muted);
+  font-size: clamp(14px, 1.8vw, 15px);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 44ch;
+}
+
+.outreach-container .film-end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.outreach-container .film-end-cta {
+  padding: 11px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 0 25px color-mix(in srgb, var(--magenta) 40%, transparent);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.outreach-container .film-end-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 35px color-mix(in srgb, var(--magenta) 60%, transparent);
+}
+
+.outreach-container .film-end-replay {
+  padding: 10px 18px;
+  font-size: 14px;
+  background: color-mix(in srgb, #000 50%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 580px) {
+  .outreach-container .film-end-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .outreach-container .film-end-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 }

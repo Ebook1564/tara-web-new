@@ -51,7 +51,7 @@ p{margin:0}
 
 /* Film */
 .film{display:flex;flex-direction:column;gap:14px;align-items:center}
-.film-frame{position:relative;width:100%;max-width:980px;aspect-ratio:1344/768;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:0 0 70px color-mix(in srgb,var(--magenta) 22%,transparent)}
+.film-frame{position:relative;width:100%;max-width:980px;aspect-ratio:16/9;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:0 0 70px color-mix(in srgb,var(--magenta) 22%,transparent)}
 .film-frame video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
 .film-ctl{position:absolute;right:14px;bottom:14px;display:flex;gap:8px}
 .film-ctl .btn{background:color-mix(in srgb,#000 60%,transparent);backdrop-filter:blur(6px);font-size:13px;padding:7px 14px}
@@ -262,7 +262,7 @@ button.notif:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
   <section class="film" aria-label="The system in ten seconds">
     <div class="film-frame">
-      <video id="film" src="media/outreach-funnel.mp4" poster="media/outreach-funnel-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Animation of 2,400 prospects flowing through the funnel to about 15 qualified meetings"></video>
+      <video id="film" src="media/Tara_OIS_Website.mp4" poster="media/Tara_OIS_Website-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Tara Applications Outreach Intelligence System video presentation"></video>
       <div class="film-ctl">
         <button class="btn" id="filmPlay" type="button">Pause</button>
         <button class="btn" id="filmSound" type="button">Sound on</button>
